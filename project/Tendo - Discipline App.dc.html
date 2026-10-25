@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; background:#0B0908; }
+a { color:#8C9B6E; text-decoration:none; }
+a:hover { color:#A9B88A; }
+</style>
+</helmet>
+
+<section style="padding:56px 56px 80px;font-family:Archivo,system-ui,sans-serif;color:#F4EDE4;background:#0B0908">
+  <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px">
+    <div style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1">Tendo</div>
+    <div style="font-size:12px;letter-spacing:.18em;color:#8C8175;font-weight:600">TURN 1 · TWO DIRECTIONS</div>
+  </div>
+  <div style="font-size:15px;color:#A79A8C;max-width:720px;line-height:1.55;margin-bottom:40px">Both are the same working app — nine screens, hold-to-complete, weighted score, group leaderboard. They differ in surface and type. Pick one and I'll take it the rest of the way.</div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+
+    <div id="1a" style="display:flex;flex-direction:column;gap:18px;width:402px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;background:#8C9B6E;color:#14100D;padding:5px 9px;border-radius:4px">1A</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:24px">Warm dark</div>
+      </div>
+      <div style="font-size:13.5px;color:#A79A8C;line-height:1.55;min-height:62px">Charcoal with a warm cast, sage accent, soft filled cards. Reads calm and physical — closer to a notebook on a desk than a dashboard.</div>
+      <dc-import name="TendoWarmDark" hint-size="402px,874px"></dc-import>
+    </div>
+
+    <div id="1b" style="display:flex;flex-direction:column;gap:18px;width:402px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;background:#EDE7DA;color:#0F0E0C;padding:5px 9px;border-radius:4px">1B</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:24px">Paper dark</div>
+      </div>
+      <div style="font-size:13.5px;color:#A79A8C;line-height:1.55;min-height:62px">Ink on warm off-black. No cards — hairline rules, square corners, larger serif, wider letterspacing on labels. Editorial and severe.</div>
+      <dc-import name="TendoPaperDark" hint-size="402px,874px"></dc-import>
+    </div>
+
+    <div style="width:340px;display:flex;flex-direction:column;gap:22px;padding-top:8px">
+      <div>
+        <div style="font-size:11px;letter-spacing:.18em;color:#8C8175;font-weight:600;margin-bottom:10px">WHAT'S CLICKABLE</div>
+        <div style="font-size:13.5px;color:#A79A8C;line-height:1.7">Four tabs at the bottom. Press and hold a task — the fill sweeps for as long as the task's weight demands, then the gauge moves. Tap a group to open its leaderboard; Nudge on a slipping member opens the preset sheet. You → Replay first run shows onboarding.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:.18em;color:#8C8175;font-weight:600;margin-bottom:10px">THE SCORE</div>
+        <div style="font-size:13.5px;color:#A79A8C;line-height:1.7">Weighted, not counted. Weight is inferred from your own history — kept 41% of the time means ×1.9, kept 86% means ×1.2 — and shown openly on every row, because a hidden penalty feels arbitrary. Shared tasks are excluded; they feed a separate group contribution.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:.18em;color:#8C8175;font-weight:600;margin-bottom:10px">EDGE STATES</div>
+        <div style="font-size:13.5px;color:#A79A8C;line-height:1.7">Open Tweaks on either phone to switch Home between normal, empty, all-done, too-new-to-rate, and missed-day — and to jump straight to any screen.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:.18em;color:#8C8175;font-weight:600;margin-bottom:10px">OPEN</div>
+        <div style="font-size:13.5px;color:#A79A8C;line-height:1.7">Group creation, invite-by-code, and the nightly close-out notification aren't drawn yet. Say the word and they go in the direction you pick.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</x-dc>
+</body>
+</html>
