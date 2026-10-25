@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="./doc-page.js"></script>
+<style>
+body { margin:0; font-family:'IBM Plex Sans',system-ui,sans-serif; color:#1F1C19; font-size:10.5pt; line-height:1.5; }
+a { color:#4F5E33; }
+a:hover { color:#2F3A1D; }
+doc-page:not(:defined) { visibility:hidden; }
+</style>
+</helmet>
+
+<doc-page margin="0.75in">
+<div slot="footer" style="font-size:8pt;color:#6B645B;display:flex;justify-content:space-between;border-top:1px solid #D9D3CA;padding-top:6px"><span>Tendo · Product Requirements Document</span><span>v1.0 · 30 September 2026</span></div>
+
+<div style="border-bottom:3px solid #1F1C19;padding-bottom:18px;margin-bottom:8px">
+  <div style="font-size:9pt;letter-spacing:.16em;font-weight:600;color:#6B645B">PRODUCT REQUIREMENTS DOCUMENT</div>
+  <h1 style="font-size:32pt;line-height:1;margin:10px 0 6px;letter-spacing:-.02em">Tendo</h1>
+  <div style="font-size:13pt;color:#4A443D">keep your way</div>
+  <div style="display:flex;flex-wrap:wrap;gap:24px;margin-top:16px;font-size:9.5pt;color:#4A443D">
+    <div><b>Version</b> 1.0</div><div><b>Date</b> 30 Sep 2026</div><div><b>Source of truth</b> Tendo.dc.html (interactive prototype)</div><div><b>Status</b> Ready for engineering review</div>
+  </div>
+</div>
+
+<p><b>How to read this document.</b> Everything described here exists in the approved Tendo prototype. Nothing is invented. Where the prototype shows a screen but not the rule behind it, the rule is marked <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span>. Where the prototype values are illustrative (sample people, scores, dates), they are called out as sample data. Values in <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5pt">monospace</span> are the prototype's working constants and are the recommended defaults unless product decides otherwise.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">Contents</h2>
+<ol style="column-count:2;column-gap:28px;margin:0;padding-left:20px;font-size:9.5pt">
+<li>Product overview</li><li>Problem statement</li><li>Product vision</li><li>Target users</li><li>Core value proposition</li><li>MVP scope</li><li>Out of scope / future</li><li>Feature requirements (index)</li><li>Screen inventory</li><li>Navigation structure</li><li>User journeys</li><li>Commitment creation &amp; management</li><li>Commitment types</li><li>Commitment states</li><li>Discipline Score</li><li>Streaks</li><li>Mood check-in &amp; adaptive tone</li><li>Weekly Review</li><li>Commitment Packs</li><li>Friends &amp; friend requests</li><li>Groups</li><li>Shared commitments</li><li>Group scores &amp; leaderboards</li><li>Privacy controls</li><li>Notifications</li><li>Tendo Free vs Tendo Pro</li><li>Two-group Free limit</li><li>Pro upgrade &amp; downgrade</li><li>Subscription screens</li><li>Travel, Recovery &amp; optional days</li><li>One-day rescheduling</li><li>Offline states</li><li>Accessibility</li><li>Privacy &amp; account deletion</li><li>Empty, loading, error &amp; edge states</li><li>Design-system requirements</li><li>Acceptance criteria summary</li><li>Appendix A · Decisions required</li><li>Appendix B · Feature status table</li>
+</ol>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">1. Product overview</h2>
+<p>Tendo is a mobile app (iOS and Android) for keeping recurring personal commitments. Users define the things that make up a good day for them — making the bed, working out, studying, reading, brushing their teeth — and hold themselves to them every day. Tendo turns each day into a single 0–100% <b>Discipline Score</b>, tracks streaks, and lets users join small private groups where shared commitments are scored and ranked fairly.</p>
+<p>Tendo is deliberately not a task manager. A task manager asks <i>"what do I need to get done?"</i>; Tendo asks <i>"what did I commit to doing consistently?"</i>. The core loop is:</p>
+<p style="font-size:12pt;font-weight:600;margin:10px 0 10px 16px">make commitments → keep them → measure consistency</p>
+<p>The social layer extends it to <b>keep your way, together</b>. It is private, invitation-based, and has no feed, posts, comments, followers or messaging.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">2. Problem statement</h2>
+<ul>
+<li>Habit trackers count check-marks. Anyone can reach a high number by adding trivial items, so the number means nothing.</li>
+<li>To-do apps treat recurring commitments like one-off tasks, bury them under project work, and don't measure consistency.</li>
+<li>Real life breaks rigid systems. Illness, travel and late nights break streaks unfairly, so people either give up or stop being honest with the app.</li>
+<li>Accountability apps drift into social media: feeds, likes and public posts replace the actual commitment.</li>
+<li>Users can't see why they got a score, so they stop trusting it.</li>
+</ul>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">3. Product vision</h2>
+<p>An honest, calm record of whether you kept your word to yourself. Tendo should feel <b>supportive but not easy to game</b>, <b>flexible but still disciplined</b>, <b>social but not social media</b>, and <b>powerful but still minimal</b>. It adjusts to real life (skips, reschedules, travel, recovery) while keeping an honest history of what happened.</p>
+<p>Guiding rule for the mood and tone features: <b>mood changes the conversation, not the rules.</b></p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">4. Target users</h2>
+<ul>
+<li><b>The self-improver.</b> 18–35. Wants stronger daily discipline around fitness, study, focus and sleep.</li>
+<li><b>The everyday organiser.</b> Wants the small things in a normal day to happen: chores, hygiene, tidying, hydration.</li>
+<li><b>The accountability seeker.</b> Keeps commitments better when 2–12 friends can see a score. Doesn't want a social network.</li>
+<li><b>The irregular-schedule user.</b> Night owls, shift workers and travellers, who need a custom day end, timezone safety and travel mode.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Minimum age and whether an age gate is needed at signup. The prototype collects no age.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">5. Core value proposition</h2>
+<ul>
+<li><b>One honest number.</b> A weighted daily score where the commitments you avoid count for more, with every point explained.</li>
+<li><b>Real life is allowed.</b> Skip, move, pause, travel, recovery and optional days are all recorded honestly, never silently.</li>
+<li><b>Fair, private accountability.</b> Groups compete on shared commitments by percentage, never on volume, and never see private commitments.</li>
+<li><b>Genuinely free.</b> Everything except more than two groups is free.</li>
+</ul>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">6. MVP scope</h2>
+<p>The MVP is everything in the prototype except the items listed in section 7:</p>
+<ul style="column-count:2;column-gap:28px">
+<li>Account: register, verify email, sign in, reset password, Apple/Google sign-in</li>
+<li>3-step onboarding + notification permission explainer</li>
+<li>Daily mood check-in and Today's Priority</li>
+<li>Today screen with hold-to-complete and adaptive ordering</li>
+<li>Four commitment types: simple, amount, duration, weekly target</li>
+<li>Categories, suggestions, custom schedules, time of day</li>
+<li>Commitment Packs (32 curated packs)</li>
+<li>Skip, pause, archive, delete, optional, move today</li>
+<li>Weighted Discipline Score + breakdown screen</li>
+<li>Per-commitment and daily streaks</li>
+<li>Commitment detail with momentum</li>
+<li>Focus timer (contextual)</li>
+<li>End-of-day close-out and reflection</li>
+<li>Weekly Review</li>
+<li>Stats (30-day chart) and history with day editing</li>
+<li>Travel mode, Recovery days, heavy-day suggestion</li>
+<li>Friends, requests, profiles</li>
+<li>Groups: create, join, roles, settings, recap</li>
+<li>Shared commitments, challenges, leaderboards, nudges</li>
+<li>Privacy controls, block/report, blocked users</li>
+<li>Notifications, reminders, email preferences</li>
+<li>Tendo Free / Pro (unlimited groups), upgrade sheet, subscription, downgrade</li>
+<li>Privacy &amp; Data hub, export, account deletion, legal, About</li>
+<li>Offline, timezone and sync-conflict states</li>
+<li>Appearance: Warm dark and Pure black</li>
+<li>Widgets: Today, Remaining, Streak <i>(see 7 — decision on MVP)</i></li>
+</ul>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">7. Out of scope / future features</h2>
+<p>These appear in the product only as "Coming later" labels, or are explicitly deferred. None of them may be built as working MVP functionality.</p>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Feature</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Where it appears today</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Rule</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>AI Coach</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Pro screen "Coming later"; upgrade sheet chip</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No chat, no AI suggestions, no AI screens.</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Advanced Analytics</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Pro screen "Coming later"</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Weekday, time-of-day, category and mood trends are future Pro. Stats stays free.</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Deeper Customization</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Pro screen "Coming later"</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Accent colours, icons, ring styles. The two built-in themes are free and MVP.</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Live Activities</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Not designed</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Post-MVP enhancement for the focus timer.</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Calendar integration beyond connect</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">You → Calendar (connect toggle only)</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Showing events and writing Tendo events are post-MVP.</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Widgets</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">You → Widgets (3 concepts)</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> MVP or post-MVP, and free or Pro.</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Never in scope</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">—</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Public feed, comments, likes, followers, direct messages, achievement economy, virtual currency, marketplace, paid packs, AI-generated packs, enterprise permissions, cookie banner in the native app.</td></tr>
+</tbody></table>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">8. Feature requirements (index)</h2>
+<p>Every major feature is specified in sections 12–35 using the same structure: <b>Purpose · User story · Required behaviour · Business rules · Edge cases · Screens · Acceptance criteria</b>. Section 37 collects the acceptance criteria and Appendix B gives the status table.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">9. Screen inventory</h2>
+<table style="width:100%;border-collapse:collapse;font-size:9pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:5px 7px;border-bottom:2px solid #1F1C19;width:28%">Screen / sheet</th><th style="text-align:left;padding:5px 7px;border-bottom:2px solid #1F1C19;width:16%">Area</th><th style="text-align:left;padding:5px 7px;border-bottom:2px solid #1F1C19">Contents</th></tr></thead>
+<tbody>
+<sc-for list="{{ screens }}" as="r" hint-placeholder-count="12">
+<tr><td style="padding:5px 7px;border-bottom:1px solid #E4DED5;vertical-align:top;font-weight:600">{{ r.name }}</td><td style="padding:5px 7px;border-bottom:1px solid #E4DED5;vertical-align:top;color:#4A443D">{{ r.area }}</td><td style="padding:5px 7px;border-bottom:1px solid #E4DED5;vertical-align:top">{{ r.desc }}</td></tr>
+</sc-for>
+</tbody></table>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">10. Navigation structure</h2>
+<p><b>Bottom tab bar, four tabs:</b> Today · Groups · Stats · You. Tabs appear on top-level screens and their direct settings pages. Creation flows, detail screens, onboarding, check-in and full-screen timers hide the tab bar.</p>
+<ul>
+<li><b>Today</b> → Score breakdown · Commitment detail → Custom schedule · Add commitment → Packs → Pack · Manage commitments · Weekly Review · sheets (actions, move, log, focus, adjust, close-out/reflection, activity, link completion).</li>
+<li><b>Groups</b> → Group home → Group settings (member sheet, confirm delete) · Shared commitment create · Challenge · Create group · Join sheet · Friends → Friend profile · Upgrade sheet.</li>
+<li><b>Stats</b> → History (edit day).</li>
+<li><b>You</b> → Friends · Groups · Plan/Pro · Subscription · Downgrade · Day end sheet · Reminders · Notifications · History · Widgets · Calendar · Appearance · Tone · Recovery sheet · Travel mode · Weekly Review · Commitments · Privacy &amp; Data (Social privacy, Notifications &amp; email, Blocked users, Export, What Tendo stores, Privacy Policy, Terms, Delete account) · About Tendo (Licenses) · Preview close-out · Replay first run · Sign out.</li>
+</ul>
+<p><b>Back behaviour.</b> Every pushed screen has a text back link in the top-left naming its parent ("‹ Today", "‹ Groups", "‹ You"). Legal screens return to whichever screen opened them. Bottom sheets close on scrim tap and have an explicit Cancel or Not now wherever a choice is involved.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The Stats tab is labelled "Stats" in the tab bar, but the History back link reads "‹ Progress". Pick one name.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">11. User journeys</h2>
+<h3 style="font-size:12pt;margin:18px 0 6px">J1 · New user to first completed day</h3>
+<ol>
+<li>Welcome → <i>Create an account</i> → Register (name, email, password) → Verify email (6-digit code).</li>
+<li>Onboarding step 1: "What are you trying to build?" (free text or a chip).</li>
+<li>Step 2: "Start with these." — 5 balanced suggestions, toggle off any that don't fit.</li>
+<li>Step 3: "When does your day end?" (Midnight / 1 AM / 2 AM / 3 AM).</li>
+<li>Notification permission explainer → <i>Continue</i> triggers the OS prompt, or <i>Not now</i>.</li>
+<li>Mood check-in → Today's Priority (optional) → Today.</li>
+<li>Hold each commitment to complete it. The score shows "Too new to rate" until day 5.</li>
+<li>Close out the day → reflection if unfinished, otherwise the day summary.</li>
+</ol>
+<h3 style="font-size:12pt;margin:18px 0 6px">J2 · Returning user, daily</h3>
+<p>Sign in (or stay signed in) → check-in (mood, priority, or Skip) → Today → optional "Anything different today?" to move, skip or mark items optional → complete through the day → close out.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">J3 · Social</h3>
+<p>You or Groups → Friends → search a username → Add → friend accepts → Create group (name, goal, invite friends or share a code) → add shared commitments → compete on the weekly leaderboard → nudge a slipping member → Sunday group recap.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">J4 · Hitting the Free limit</h3>
+<p>Free user in two groups taps <i>Create group</i> or <i>Join with code</i> → upgrade sheet "Keep going with Tendo Pro" → <i>Upgrade to Pro</i> (Pro screen) or <i>Not now</i> (dismiss, nothing lost).</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">J5 · Real life</h3>
+<p>Travelling next week → You → Travel mode → choose dates → tick commitments to pause → Start. Ill today → You → Recovery days → Use Recovery Day. Can't work out today → ⋯ → Move today → Tomorrow.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">J6 · Leaving Pro</h3>
+<p>Subscription → Cancel Pro → Pro stays until the period ends → Downgrade screen: pick 2 groups to keep active → the rest become Inactive with history intact.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">12. Commitment creation &amp; management</h2>
+<p><b>Purpose.</b> Let users capture anything that belongs to their day in a few seconds, and keep a tidy list as it grows.</p>
+<p><b>User story.</b> As a user, I want to add a commitment quickly — from a suggestion, a pack or my own words — and set how and when it repeats, so that Tendo tracks what actually matters to me.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Add commitment (screen order)</h3>
+<ol>
+<li>Header: Cancel · <i>Browse packs ›</i> · title "New commitment".</li>
+<li>Name field (free text, unrestricted).</li>
+<li>"How do you want to track this?" — Done / not done · Reach an amount · Spend time · Times per week. Non-simple types reveal a target stepper (section 13).</li>
+<li>Category: Body · Mind · Focus · Craft · Chores · Other (single select, wrapping pills).</li>
+<li>Suggested: 6 pills for the selected category + <i>View more</i> / <i>Show less</i>. <b>Other</b> shows no suggestions, only a line encouraging free text.</li>
+<li>Cadence: Every day · Weekdays · 3× a week · Custom.</li>
+<li>Why I do this (optional, one line).</li>
+<li>Weight card: "×1.0 — New commitments start at ×1.0…".</li>
+<li><i>Add commitment</i> (disabled style until a name exists).</li>
+</ol>
+<p><b>Business rules.</b></p>
+<ul>
+<li>Tapping a suggestion fills the name field and selects that suggestion's recommended cadence. Both stay editable.</li>
+<li>Recommended cadences: daily hygiene and chores → Every day; Laundry, Change bedsheets, Clean bathroom, Organise clothes → Custom; Workout, Run 5K, Mobility, Drawing, Side project → 3× a week; study and deep work → Weekdays.</li>
+<li>New commitments start at weight ×1.0, streak 0, and appear on Today immediately.</li>
+<li>Commitments added from Today go to the end of their time-of-day group.</li>
+<li>Suggestion library: Body 11, Mind 8, Focus 8, Craft 8, Chores 16, Other 0.</li>
+</ul>
+<h3 style="font-size:12pt;margin:18px 0 6px">Custom schedule</h3>
+<p>Opened from Commitment detail → Schedule (and from Weekly Review → Adjust schedule). Pattern: Every day · Weekdays · Weekends · Specific days · X times per week · Every X days. Specific days reveals a 7-day picker (M T W T F S S). Time of day: Morning · Afternoon · Evening · Any time. Starts (default today) and Ends (default no end). A plain-language summary ("Due Mon, Wed, Fri · afternoon, starting today") sits above <i>Save schedule</i>.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Input controls for "X times per week" count, "Every X days" interval, and start/end date pickers. The prototype shows static values.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether time of day is chosen on the Add screen or only in Custom schedule. The prototype only has it in Custom schedule, so new commitments default to "Any time".<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Edit name, category and type after creation. The actions sheet has no Edit row; detail exposes only Schedule.</p>
+<p><b>History snapshots.</b> Editing a schedule never rewrites past days. Each day stores the schedule that applied on that date.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Commitment detail</h3>
+<p>Name, category · cadence, paused banner when relevant, tiles (Weight, Streak, Kept), tiles (Best streak, This month x/y), Momentum card (30-day % large, plus 7 days / 30 days / All time), <i>Why I do this</i> quote when set, "Why ×N?" explanation, last-14-days grid with a Kept / Missed / Skipped legend, <i>Complete now</i> / <i>Completed today</i>, <i>More</i> (actions sheet), Schedule row.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Manage commitments</h3>
+<p>From Today → Manage, or You → Commitments. Search field, status filter (Active · Paused · Archived), category filter (All + 6), count label, rows with a status badge and ⋯ actions. Empty result: "Nothing matches that. Try another filter." Footnote: "Archiving keeps the history and the analytics. Deleting doesn't."</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Actions sheet (⋯)</h3>
+<p>Complete / Mark not done · Skip today · Pause / Resume · Archive / Restore · Optional today / Make it required · Make it today's priority / Remove priority · Start focus · Move today · Delete (destructive, red, last).</p>
+<p><b>Edge cases.</b> A duplicate name within the user's own list is allowed from the Add screen (only packs check duplicates) — <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> whether to warn. Deleting skips confirmation in the prototype — <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span>. The spec asks for confirmation before permanent deletion; recommend a confirm sheet. The "Keep your list meaningful" nudge for many trivial commitments is not designed — <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span>.</p>
+<p><b>Acceptance criteria.</b></p>
+<ul>
+<li>A user can create a commitment with only a name. Every other field has a default.</li>
+<li>Tapping a suggestion fills the name and selects its cadence. Both can be changed before saving.</li>
+<li>Choosing Other shows no suggestion pills.</li>
+<li>A new commitment appears on Today with ×1.0 and is included in the score from the moment it's added.</li>
+<li>Changing a schedule does not change any past day in History.</li>
+<li>Manage search matches name substrings, case-insensitive, combined with both filters.</li>
+</ul>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">13. Commitment types</h2>
+<p><b>Purpose.</b> Not everything is yes/no. Tendo must measure amounts, time and weekly frequency without becoming a spreadsheet.</p>
+<p><b>User story.</b> As a user, I want to track "2 L of water" or "study 60 min" as progress, not just done/not done, so partial effort is recorded honestly.</p>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Type (UI label)</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Target input</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Today row</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Logging</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Score credit</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Simple</b> · Done / not done</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">—</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Checkbox, name, meta</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Hold to complete</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">0 or 1</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Amount</b> · Reach an amount</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Daily target, stepper ±5</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">"1.4 / 2 L" + progress bar</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Tap progress → Log sheet: +0.2 / +0.5 / +1 / Done</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">value ÷ target, capped at 1</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Duration</b> · Spend time</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Minutes/day, stepper ±15</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">"42 / 60 min" + bar</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Log sheet +15 / +30 / +60 / Done, or <i>Start a timer instead</i></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">minutes ÷ target, capped at 1</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Weekly target</b> · Times per week</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Times/week, stepper ±1</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">"2 / 3 this week" + bar</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Log sheet +1 / Done</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">See rule below</td></tr>
+</tbody></table>
+<p><b>Business rules.</b></p>
+<ul>
+<li>The type picker reuses the Add screen. There are no separate creation flows.</li>
+<li>Logging never exceeds the target.</li>
+<li>Partial credit is always shown in words on the Log sheet ("67% of this commitment right now") and on the score breakdown.</li>
+<li>Duration never forces a timer. Manual logging is always available.</li>
+<li>Weekly targets have no fixed weekday. They count as complete once the target is reached, whenever that happens.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> How a weekly target affects the <i>daily</i> score. The prototype credits progress ÷ target each day (2/3 → 67% of that item's points every day this week), while the Log sheet copy says weekly targets "score on the week, not the day". Options: (a) exclude from daily score and count only in the weekly average; (b) count only on days a session is logged; (c) current proportional behaviour.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Unit selection for Amount (L, steps, pages, glasses). The prototype hard-codes units per sample commitment and has no unit field.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether proportional credit can be switched off per commitment ("if enabled" in the brief).</p>
+<p><b>Edge cases.</b> Lowering a target below today's logged value: cap display at target, keep the raw value. Focus timer finishing on a duration commitment: <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> whether elapsed time auto-logs. The prototype does not auto-log.</p>
+<p><b>Screens.</b> Add commitment, Today rows, Log sheet, Focus timer, Score breakdown.</p>
+<p><b>Acceptance criteria.</b> A 40/60 min duration shows "40 / 60 min", a two-thirds bar, and "27 / 40" points (for a 40-point item) in the breakdown. Tapping the progress label opens the Log sheet without completing or opening detail. Done sets value = target and marks the item complete.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">14. Commitment states</h2>
+<p><b>Purpose.</b> Every outcome of a day has a distinct, honest meaning that users can tell apart without relying on colour.</p>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">State</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Visual (non-colour cue)</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">In score?</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Streak</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Set by</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Pending</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Empty outlined box</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Yes (0 until done)</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">—</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Default</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Completed</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Filled box + ✓, dimmed name, moves below unfinished</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Yes, full credit</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">+1</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Hold, Complete now, Log → Done</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Missed</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">History: empty cell; breakdown "Missed"</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Yes, 0</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Resets</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Day closes while pending</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Skipped</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Dash in box, strikethrough, "SKIPPED" badge</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No, leaves denominator</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600">Decision</span></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Actions → Skip today; Adjust sheet</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Optional</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Dashed "OPTIONAL" badge</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No, can't lower score; no bonus</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Unaffected</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Actions; Adjust; heavy-day Review</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Paused</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">"PAUSED" badge; detail banner "Paused until…"</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No, hidden from Today</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Frozen</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Actions → Pause</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Rescheduled</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Removed from today; appears on target day</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No (today); yes on new day</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600">Decision</span></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Move today</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Archived</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">"ARCHIVED" badge in Manage only</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No, history kept</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Frozen</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Actions → Archive</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Travel</b></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Hidden; Today "TRAVEL" banner; History "TRAVEL DAY"</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">No (paused items)</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Not broken</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Travel mode</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><b>Recovery</b> (day)</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">"RECOVERY" badge on Today + History</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5"><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600">Decision</span></td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Preserved</td><td style="padding:6px 8px;border-bottom:1px solid #E4DED5">Recovery sheet</td></tr>
+</tbody></table>
+<p><b>Rules.</b> Only one of pending/completed/skipped per day. Optional is a flag that combines with pending or completed. Paused and archived are commitment-level states and hide the item. Undo is always available on the same day: holding a completed or skipped row returns it to pending and to its original position.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Pause end date. The detail banner shows "Paused until 1 October", but Pause from the actions sheet sets no date. Choose between indefinite pause (resume manually) and a pause-until picker.</p>
+<p><b>Acceptance criteria.</b> Each state can be identified from shape and text alone (greyscale test). A skipped item never counts toward either numerator or denominator. Screen readers announce state in the row label ("Workout, skipped today. Hold to complete.").</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">15. Discipline Score</h2>
+<p><b>Purpose.</b> A single, objective, explainable measure of how well you kept today's personal commitments.</p>
+<p><b>User story.</b> As a user, I want one percentage for my day and to see exactly how it was calculated, so I trust it.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Calculation (as prototyped)</h3>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:9pt;background:#F4F1EC;border:1px solid #E4DED5;border-radius:6px;padding:12px 14px;line-height:1.7;break-inside:avoid">
+weight(c)   = round1( 1 + (1 − completionRate30d(c)) × 1.6 )      // ≥ 1.0<br>
+points(c)   = round( weight(c) × 10 )<br>
+credit(c)   = 1 if completed; value/target (≤1) for amount, duration, weekly; else 0<br>
+due         = personal commitments, pending or completed, NOT optional, NOT paused,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT archived, NOT travel-paused, NOT moved away today, NOT skipped<br>
+score       = round( Σ points(c)·credit(c) ÷ Σ points(c) × 100 )   over due
+</div>
+<p><b>Business rules.</b></p>
+<ul>
+<li><b>Personal only.</b> Shared/group commitments never enter the personal score. They feed that group's score.</li>
+<li><b>Adaptive weight.</b> Commitments you avoid gain weight. Weight is always shown openly on every row (×N) and explained on detail ("Why ×1.9?").</li>
+<li><b>Mood never affects the score</b>, weights, requirements or leaderboards.</li>
+<li><b>Today's Priority</b> is visual only, with no extra points.</li>
+<li><b>Too new to rate:</b> the score shows "—" with "Too new to rate · day N of 5" until 5 days of history exist.</li>
+<li>Comparison line: "±N vs your 30-day average".</li>
+<li>Score updates immediately on every completion, undo, log or state change.</li>
+</ul>
+<h3 style="font-size:12pt;margin:18px 0 6px">Score breakdown screen</h3>
+<p>Opened by tapping the gauge ("SEE THE MATH"). Shows the score and delta, a one-line explanation, then THE MATH: each due commitment with state (Completed / Missed / "1.4 of 2 L — 70%") and earned/possible points, skipped items as "Skipped — excluded, — / —", a total "Earned / available" row, the skip rule note, an Adaptive Weight card naming the currently heaviest commitment, and <i>Correct yesterday's entries</i>.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Final weight formula, cap and window. The prototype uses the formula above with a 30-day window and no upper cap (max ×2.6). The design copy describes the heaviest example as ×1.9. Recommend a cap of ×2.0.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Weight update frequency (nightly at day close is recommended).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> "Successful day" threshold used by Weekly Review ("clean days") and streaks. The onboarding step asking "What counts as a successful day? 70/80/90/100%" was specified but is not in the prototype.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Score when every due item is skipped or optional (0 due). Recommend "—" plus "Nothing due today".</p>
+<p><b>Acceptance criteria.</b> The sum of breakdown rows equals the total row. The total row ratio equals the displayed percentage. Skipping an item changes the denominator and never lowers the score. Adding a group commitment never changes the personal score.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">16. Streaks</h2>
+<p><b>Purpose.</b> Reward unbroken consistency per commitment, per user and per group.</p>
+<ul>
+<li><b>Commitment streak.</b> Consecutive scheduled occurrences completed. Shown on the Today meta line, detail tiles (Streak, Best streak) and Weekly Review ("Best streak").</li>
+<li><b>Personal streak.</b> Shown on the You profile (STREAK, BEST), friend rows, widgets and the History summary. Recovery days preserve it; travel-paused items don't break it.</li>
+<li><b>Group streak.</b> Consecutive days on which every member completed the shared commitments. "It breaks the moment one person misses."</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> What keeps the <i>personal</i> streak alive: 100% day, threshold day, or at least one completion.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether a skip breaks, pauses or continues a commitment streak.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether optional or skipped shared items break the group streak.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> How weekly-target and every-X-days commitments count streaks (per week / per occurrence).</p>
+<p><b>Missed-day state.</b> On the morning after a broken streak, Today shows "Yesterday closed at 34%. Your 9-day streak reset. The score recovers in about four clean days." Neutral, factual, no guilt.</p>
+<p><b>Acceptance criteria.</b> Streaks never break because of a timezone change, a Recovery day or travel-paused items. Users can hide their streak from others (Privacy).</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">17. Mood check-in &amp; adaptive tone</h2>
+<p><b>Purpose.</b> Make Tendo feel human on hard days without making the score subjective.</p>
+<p><b>User story.</b> As a user, I want to tell Tendo how I'm feeling in one tap so it speaks to me appropriately, without lowering the bar.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Check-in flow</h3>
+<ol>
+<li>"How are you feeling today?" — Rough · Low · Okay · Good · Great (single select). <i>Continue</i> is enabled once one is chosen. <i>Skip</i> is always visible. Footnote: "Only you can see this. Never shared with friends or groups."</li>
+<li>"What matters most today?" — up to 5 of today's commitments, pick one. <i>Start the day</i> or <i>No priority today</i>.</li>
+</ol>
+<p>Shown on the first open of each Tendo day, after sign-in and after onboarding.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Tone</h3>
+<p>You → Tendo Tone: <b>Gentle · Balanced (default) · Push me</b>. Mood shifts the effective tone by one step (Rough/Low −1, Good/Great +1), producing a gentle, balanced or direct lean. The lean changes only the coach line under the score and similar copy, for example:</p>
+<ul>
+<li>Gentle: "Start with one. That is enough to begin." / "One left. No rush."</li>
+<li>Balanced: "Three left. Still winnable." / "One left. Finish it."</li>
+<li>Direct: "Three left. You know the plan."</li>
+</ul>
+<p><b>Rules.</b> Mood never changes weights, score, requirements, commitments or leaderboards. Mood is private: never on profiles, groups, leaderboards or friends. Copy never uses guilt or shame. A Push-me user on a low day still gets direct copy, one step softer.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether mood can be changed later in the day, and whether skipping check-in suppresses it until tomorrow.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The full copy matrix for all tone/lean states beyond the coach line.</p>
+<p><b>Screens.</b> Check-in (mood), Check-in (priority), Today (Priority card, coach line), You (Tendo Tone).</p>
+<p><b>Acceptance criteria.</b> The score is identical for the same completions regardless of mood. Skip reaches Today with no priority set. The priority item is removed from the main list and shown in the Today's Priority card, with Focus when eligible.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">18. Weekly Review</h2>
+<p><b>Purpose.</b> A short weekly moment to look back and adjust — a signature screen, not a report.</p>
+<p><b>User story.</b> As a user, at the end of each week I want to see how I did in under a minute and decide whether to change anything.</p>
+<p><b>Behaviour.</b> Header "WEEK OF 14–20 SEPTEMBER" · "Your week" · average Discipline Score (large) · delta vs last week · tiles: Clean days, Best streak · Hardest and Strongest commitment with % · <i>See the detail</i> expands daily bars (Mon–Sun %) and commitment consistency bars · "Anything you want to change next week?" · <i>Keep everything</i> (primary) / <i>Review commitments</i> (→ Manage) / <i>Adjust schedule</i> (→ Custom schedule).</p>
+<p><b>Entry points.</b> Today banner "Your week is ready." (until opened) · You → Weekly review (Sundays) · Weekly Review notification.</p>
+<p><b>Rules.</b> Uses only existing Tendo data; no AI. Group weekly recap is separate (section 23).</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Week-ending day setting (Sunday default; user-configurable?).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Definition of "clean day" (see section 15).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether past weekly reviews are browsable.</p>
+<p><b>Edge cases.</b> Fewer than 7 days of history: show available days, hide the vs-last-week delta. Recovery and travel days are shown in the daily list but excluded from the average — <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span>.</p>
+<p><b>Acceptance criteria.</b> The average equals the mean of the displayed daily scores. The Today banner disappears once the review is opened.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">19. Commitment Packs</h2>
+<p><b>Purpose.</b> Curated, editable starting points so users can set up a whole routine at once. Not a marketplace.</p>
+<p><b>User story.</b> As a new user, I want to add a "Morning Reset" in one tap and remove what doesn't fit.</p>
+<p><b>Browse.</b> From Add commitment → <i>Browse packs ›</i>. Search (matches pack names and the commitments inside them) · category chips: All, Daily Life, Fitness, Study, Focus, Mind, Home, Sleep, Self-care, Work, Creativity, Travel · minimal cards "Name / N commitments · Category". No illustrations.</p>
+<p><b>Library (32).</b> Morning Reset, Night Reset, Better Sleep, Gym Routine, Beginner Fitness, Running, Exam Week, University Day, Deep Work, Productive Workday, Coding Routine, Reading Habit, Clean Room, Weekly Cleaning, Personal Hygiene, Self-Care, Mental Reset, Phone Detox, Better Eating, Hydration, Creative Routine, Writing Routine, Language Learning, Side Project, Weekend Reset, Travel Routine, Minimal Day, Discipline Starter, No-Procrastination, Work From Home, Posture &amp; Mobility, Digital Clean-Up. Each item carries a default cadence and time of day.</p>
+<p><b>Preview &amp; customise.</b> Pack screen lists included items with cadence · time. <i>Customize</i> makes rows toggleable. CTA "Add N commitments" reflects the real count after duplicates.</p>
+<p><b>Duplicate handling.</b> Items matching an existing commitment name (case-insensitive) show "ALREADY HAVE". A card offers <b>Keep existing (default)</b> · Add another · Skip duplicate. In customise mode duplicates start unticked. Never silently duplicate.</p>
+<p><b>Rules.</b> Added items become normal commitments (editable, pausable, archivable) with ×1.0, category = pack category. Packs are free. No paid, creator or AI packs.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Pack categories (Daily Life, Home, etc.) differ from commitment categories (Body, Mind, Focus, Craft, Chores, Other). Define the mapping when a pack item is added. The prototype writes the pack category, which is not one of the six.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> A unified search across suggestions, packs and categories was specified. The prototype searches packs only.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> "Keep existing" and "Skip duplicate" behave identically in the prototype. Define the difference or merge them.</p>
+<p><b>Acceptance criteria.</b> Adding Morning Reset to an account that already has "Make bed" adds 5, not 6, by default. The CTA count always matches what is actually added. Nothing is added if every selected item is a kept duplicate; the user sees "Nothing new to add".</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">20. Friends &amp; friend requests</h2>
+<p><b>Purpose.</b> Private, mutual connections for accountability. No followers.</p>
+<p><b>User story.</b> As a user, I want to add people I know by username and see how they're doing, within what they allow.</p>
+<p><b>Behaviour.</b> Friends screen (from Groups and You): search by username → results with <i>Add</i> → "Requested" → "Friends" · Pending requests with Accept / Decline · friends list with weekly score and streak (or "streak hidden") · empty state "No one yet." Friend profile: initials avatar, display name, @username, optional status line, This week / Streak / Best, Groups in common, privacy note, <i>Invite to a group</i>, <i>Remove</i>.</p>
+<p><b>Rules.</b> Friendship is mutual and requires acceptance. Visibility follows the friend's privacy settings. No follower counts, posts or bios beyond one status line. Commitment names are never shown on profiles.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Block and Report from the friend profile. They exist on the group member sheet but not on the profile; the brief asks for them on profiles.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Username rules (uniqueness, allowed characters, where users set it). @handles appear but there is no username field at signup.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Where the status line is edited.</p>
+<p><b>Acceptance criteria.</b> Search returns only exact-or-prefix username/name matches, excluding blocked users. Accepting moves the person into the friends list and triggers a toast. Remove takes effect immediately and returns to Friends.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">21. Groups</h2>
+<p><b>Purpose.</b> Small private circles (up to 12 people) that keep each other accountable on shared commitments.</p>
+<p><b>User story.</b> As a user, I want to create a group with friends, set shared commitments, and see who's keeping up, without a social feed.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Groups list</h3>
+<p>Title, limit label ("2 / 2 groups" or "Pro · unlimited"), explainer, cards (name, group score %, member count · streak, "You're 3rd of 8", 7-day bars), <i>Join with code</i>, <i>+ Create group</i>, footnote, Friends row. Empty: "Discipline holds better with witnesses."</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Create group</h3>
+<p>Name · goal (optional) · first shared commitment · invite friends (checklist) · invite code (6 characters, expires in 48 h) · <i>Create group</i> (enabled once named).</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Join</h3>
+<p>Sheet: six-character code field, <i>Join</i>, error "No group with that code. Check it and try again."</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Group home</h3>
+<p>Back · Settings › · name · members · goal quote · tiles (This week %, Group streak) · "Group score counts shared commitments only…" · Weekly Recap · Shared commitments (+ Add) with participant chips · Leaderboard with period chips · Challenge card · Activity (4 lines, no likes or comments) · Leave group.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Roles &amp; settings</h3>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Capability</th><th style="padding:6px 8px;border-bottom:2px solid #1F1C19">Owner</th><th style="padding:6px 8px;border-bottom:2px solid #1F1C19">Admin</th><th style="padding:6px 8px;border-bottom:2px solid #1F1C19">Member</th></tr></thead>
+<tbody>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Rename, delete group, appoint admins</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">—</td><td style="text-align:center;border-bottom:1px solid #E4DED5">—</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Invite, remove members</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">—</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Create/edit shared commitments, manage challenges</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">—</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Participate, complete, nudge, mute, leave, report</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td><td style="text-align:center;border-bottom:1px solid #E4DED5">✓</td></tr>
+</tbody></table>
+<p>Group settings: your role · Name · Shared commitments · Mute this group · Members list (tap → member sheet: View profile, Make/Remove admin, Disable nudges from X, Remove from group, Block, Report) · group notification toggles · separated destructive zone: Leave group · Report group · Delete group (owner only, type the group name to confirm).</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Member sheet actions are shown to everyone in the prototype. Hide admin and remove actions from members.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Ownership transfer when the owner leaves.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Group icon (listed in brief, not designed) and rename UI.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The first shared commitment on Create group is fixed ("6am check-in"). Make it selectable or optional.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Behaviour at 12 members (join blocked, error copy).</p>
+<p><b>Challenges.</b> Challenge card and screen: "90% Week — everyone holds at least 90% for seven days", on-pace count (4/8), members with ON PACE / BEHIND, Other challenges (Reading Month, No Skip Week). No prizes, no points economy. <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Challenge creation UI (not designed; only viewing is).</p>
+<p><b>Acceptance criteria.</b> Only owners see Delete group. Delete requires the exact name. Mute silences group notifications but keeps the user on the leaderboard. Leaving removes the group from the user's list and frees a Free-plan slot.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">22. Shared commitments</h2>
+<p><b>Purpose.</b> Commitments owned by a group that each participant keeps individually.</p>
+<p><b>Create.</b> Group home → + Add: name · audience label "Visible to [Group] · N members" · explanation (feeds the group score, never personal; private commitments never added) · cadence · participants checklist · Starts / Ends · <i>Add to group</i>.</p>
+<p><b>Rules.</b></p>
+<ul>
+<li>Shared commitments appear on each participant's Today with a group badge and feed only that group's score.</li>
+<li>A private commitment is never converted to shared automatically.</li>
+<li><b>Personal + group duplicates.</b> When a group adds a commitment matching a personal one (e.g. Workout), Today shows "Gym Crew added 'Workout'" → <i>Link this completion?</i> sheet: <b>Count for both</b> / <b>Keep separate</b>. The choice is remembered. Nothing merges silently. The group score still counts only the shared item.</li>
+<li>Members see who participates and overall completion. Individual status is shown subject to each member's privacy.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> A shared-commitment detail screen with per-participant status was specified but is not in the current prototype (only chips on Group home).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether a member can decline a shared commitment.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether shared commitments use adaptive weights inside the group score.</p>
+<p><b>Acceptance criteria.</b> Completing a linked commitment once marks both records. Completing a separate one marks only that record. The audience label is always visible before saving.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">23. Group scores &amp; leaderboards</h2>
+<p><b>Purpose.</b> Fair competition that rewards consistency, not volume.</p>
+<ul>
+<li><b>Group score</b> = completion across that group's shared commitments this week. Never includes private commitments.</li>
+<li><b>Member score</b> on the leaderboard = the member's percentage on the group's shared commitments.</li>
+<li><b>Periods:</b> Today · This Week (default, 7-day average) · This Month (30-day average).</li>
+<li><b>Ranking</b> by percentage only. Never by task count, private commitments or XP. <b>Ties share a rank</b> (e.g. 1, 1, 3). No tie-breakers.</li>
+<li>Your row is highlighted. Members below the slipping threshold show <i>Nudge</i> (if nudges are allowed).</li>
+<li>Footnote under the leaderboard: "Ranked on [period] — percentage, not task count. Equal scores share a place."</li>
+</ul>
+<h3 style="font-size:12pt;margin:18px 0 6px">Nudges</h3>
+<p>Nudge → sheet with 4 presets only ("Checking in.", "You're two away.", "Don't break the chain.", "Strong week. Keep going."). No free text. One nudge per person per day; the button becomes "Sent". Recipients control nudges globally (Everyone / Friends only / Groups only / Off), per group, and per person (member sheet → Disable nudges from X).</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Weekly recap (in group)</h3>
+<p>Group score with delta vs last week, "3 of 5 members improved. Top group streak: 12 days.", Strongest shared commitment, Most room to improve. Collaborative wording only; never names the lowest-ranked member.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The slipping threshold for showing Nudge (the prototype uses &lt; 70% for the period).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> How a member who hides their score appears on the leaderboard.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Treatment of new members with fewer than 7 days in "This Week".</p>
+<p><b>Acceptance criteria.</b> Two members at 94% both show rank 1 and the next shows rank 3. Adding private commitments never changes a group rank. A second nudge to the same person on the same day is impossible.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">24. Privacy controls</h2>
+<p><b>Purpose.</b> Default to closed. Users choose exactly what others see.</p>
+<p><b>Social privacy screen</b> (Privacy &amp; Data → Social privacy):</p>
+<ul>
+<li><b>My Discipline Score:</b> Everyone in my groups · Friends only · Only me.</li>
+<li><b>My commitments:</b> Private · Show completion only · Show commitment names.</li>
+<li><b>Show my streak:</b> on/off. <b>Allow nudges:</b> on/off.</li>
+<li>Always-true rules: group scores on shared commitments are visible to that group; mood and reflections are visible only to the user; personal commitments never appear in a group automatically.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Defaults. The prototype defaults to "Everyone in my groups" and "Show completion only"; the brief says default toward privacy.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> "Visible only inside specific groups" for commitment names, and a Group activity Allow/Limit control, were specified but are not designed.</p>
+<p><b>Blocked users.</b> List with Unblock. Blocked people can't see, add, invite or nudge you and aren't told.</p>
+<p><b>Acceptance criteria.</b> With score set to Only me, friends see "—" and groups see only the shared-commitment percentage. Changing a setting applies immediately everywhere.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">25. Notifications</h2>
+<p><b>Permission.</b> After onboarding, an in-app explainer ("Allow notifications? Tendo can remind you about commitments and your weekly review. Nothing else.") runs <i>before</i> the OS prompt: <i>Continue</i> triggers the OS dialog, <i>Not now</i> doesn't.</p>
+<p><b>Notifications screen.</b></p>
+<ul>
+<li><b>My Day:</b> Morning overview · Commitment reminders · Evening check-in · Weekly Review.</li>
+<li><b>Social:</b> Friend requests · Group invites · Group nudges · Group challenges · Group weekly recap.</li>
+<li><b>Email:</b> Product updates · Tips &amp; guides · Offers. All off by default. Transactional emails (password reset, security, receipts) are always sent and separate.</li>
+<li><b>Who can nudge me:</b> Everyone · Friends only · Groups only · Off.</li>
+</ul>
+<p><b>Reminders screen.</b> Morning overview (7:00 AM, "7 commitments today. Keep your way."), per-commitment reminders (e.g. Workout 7:00 PM), Evening check-in (8:30 PM, "3 commitments left today."), Last call (1 hour before close). "+ Add a reminder". No streak-loss panic notifications, ever.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Default on/off per category. The copy says "Nothing is on by default except the two you chose in onboarding", but onboarding asks no notification choices and the prototype defaults most toggles on.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Reminder time editing UI and per-commitment reminder creation flow.</p>
+<p><b>Acceptance criteria.</b> No notification is sent for a disabled category. The OS permission is never requested without the explainer first.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">26. Tendo Free vs Tendo Pro</h2>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19;width:50%">Tendo Free — "Everything you need to keep your way"</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Tendo Pro — "More room to keep your way"</th></tr></thead>
+<tbody><tr><td style="padding:8px;vertical-align:top;border-bottom:1px solid #E4DED5">All personal features: commitments, types, categories, packs, score and breakdown, adaptive weights, streaks, history, stats, weekly review, check-in, tone, skip/pause/archive/move, travel, recovery, reminders, focus timer, themes. All social features: friends, groups, shared commitments, challenges, leaderboards (all periods), nudges, recap, privacy. <b>Up to 2 active groups.</b></td><td style="padding:8px;vertical-align:top;border-bottom:1px solid #E4DED5"><b>Available now:</b> Unlimited groups.<br><b>Coming later</b> (labelled, not functional): AI Coach · Advanced Analytics · Customization.</td></tr></tbody></table>
+<p><b>Never paywalled:</b> checking commitments, personal score, streaks, history, friends, leaderboard participation, shared commitments, the first two groups.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">27. Two-group Free limit</h2>
+<p><b>Rule.</b> A Free user can create or belong to at most <b>2 active groups</b>, counting both created and joined.</p>
+<ul>
+<li>At 0–1 groups: everything works; the limit label reads "1 / 2 groups".</li>
+<li>At 2/2: the label turns caution-coloured; a quiet card appears under the buttons ("You're in both of your free groups. Tendo Pro opens the rest. See Pro"); footnote updates.</li>
+<li>Tapping <i>Create group</i> or <i>Join with code</i> at 2/2 opens the <b>upgrade sheet</b> instead.</li>
+<li>Pro is never advertised elsewhere unprompted (only the You → Plan card, which is always present).</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Accepting a group invite from a notification at 2/2 (same upgrade sheet is recommended).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether inactive groups (after downgrade) count toward the limit (recommended: no).</p>
+<p><b>Acceptance criteria.</b> A Free user can never end up in 3 active groups by any path. Leaving a group at 2/2 immediately re-enables Create and Join.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">28. Pro upgrade &amp; downgrade behaviour</h2>
+<h3 style="font-size:12pt;margin:18px 0 6px">Upgrade sheet (the natural moment)</h3>
+<p>"Keep going with Tendo Pro" · "You're already in two groups. Pro lifts the limit — everything else you use stays free." · ✓ Unlimited groups · chips "AI Coach · later", "Analytics · later", "Customization · later" · <i>Upgrade to Pro</i> (opens Pro screen) · <i>Not now</i> (clearly visible). No timers, discounts or urgency.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Downgrade</h3>
+<ul>
+<li>Cancelling keeps Pro until the paid period ends.</li>
+<li>When Pro ends with more than 2 groups: a You banner "Pro ended — action needed" and the Downgrade screen: "GRACE PERIOD · UNTIL 5 OCTOBER", "Your Pro plan ended", "You're in N groups. Free Tendo keeps two active — pick the two you want. The rest go inactive, not deleted, and their history stays."</li>
+<li>Checklist limited to 2 selections; non-selected show "INACTIVE". <i>Continue on Free</i> (enabled at 2), <i>Keep Pro instead</i>.</li>
+<li>Inactive groups keep all history and can be reactivated by upgrading or by leaving an active group.</li>
+<li>Data loss is never used as pressure.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Grace period length (the prototype shows a fixed date).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> What happens if the user makes no choice by the deadline (e.g. keep the two most recently active).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> What other members see for an inactive member, and whether an inactive group the user owns stays usable for others.</p>
+<p><b>Acceptance criteria.</b> No group is deleted on downgrade. The third selection is refused while two are chosen. Choosing two and continuing sets the rest to inactive and returns to Groups.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">29. Subscription screens</h2>
+<h3 style="font-size:12pt;margin:18px 0 6px">Tendo Pro screen</h3>
+<p>Back · "Tendo Pro" · "More room to keep your way." · AVAILABLE NOW: Unlimited groups · COMING LATER list (AI Coach, Advanced Analytics, Customization — each labelled) · PLAN: Monthly $X.XX / Yearly $XX.XX (selectable, no "best value" badge) · terms lines: price and billing period for the selection; "Renews automatically until you cancel. No trial. Billing starts the day you upgrade."; "Cancel any time in your App Store subscriptions. You keep Pro until the period ends." · <i>Upgrade · Yearly</i> · Restore purchases · Manage · Not now · Terms of Service · Privacy Policy links.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Subscription (manage)</h3>
+<p>From You → Subscription or Pro → Manage. Current plan · Status ("Active · renews automatically" / "No active subscription") · Next renewal date and price (Pro) or groups used (Free) · note. Pro: Manage in App Store · Cancel Pro (with the downgrade explanation). Free: See Tendo Pro. Both: Restore purchases.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Actual prices and currency. The placeholders must stay until pricing exists; don't show savings claims until then.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether a free trial will exist (the prototype states "No trial").<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Android equivalents (Google Play copy for Manage and Cancel).</p>
+<p><b>Acceptance criteria.</b> Price, period, auto-renewal and cancellation info are visible without scrolling past the primary button. Not now and Restore purchases are always present. There are no countdowns, strike-through prices or fake scarcity.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">30. Travel, Recovery &amp; flexible-day behaviour</h2>
+<h3 style="font-size:12pt;margin:18px 0 6px">Travel mode</h3>
+<p>You → Travel mode. From / Until dates · "Pause while away" checklist of active commitments · summary "N paused, M still active while you're away." · Start / End travel mode. While active: Today banner "TRAVEL · N commitments paused until [date]. They won't count as missed."; paused items are hidden and excluded from the score; active items behave normally; History tags the day "TRAVEL DAY" with "6 active commitments · 5 of 6 completed". Travel is neither a success nor a failure by itself.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Date pickers (the prototype has fixed dates), auto-end on the Until date, and scheduling a future trip.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Recovery Day</h3>
+<p>You → Recovery days (N left). Sheet: "Make today a Recovery Day? Your score won't be treated like a normal day, and your history will show it clearly. It isn't a perfect day and it won't read as one." · Left this quarter: 2 · <i>Use Recovery Day</i> · Cancel. When used: Today banner "RECOVERY", coach "Recovery day. Rest counts too.", streak holds, History tag "RECOVERY". Never triggered silently. At 0 left: toast "No recovery days left this quarter."</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Allowance (the prototype uses 2 per quarter), reset period, whether it can be applied retroactively, and exactly how the day's score is stored (excluded from averages vs. recorded but flagged).</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Heavy-day suggestion</h3>
+<p>When 8 or more commitments are due and it isn't a recovery day: "You have N commitments today. Want to mark a few as optional? Optional ones can't lower your score." <i>Review</i> (→ Manage) / <i>Keep all</i> (dismiss for the day). Rule-based, never automatic.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Anything different today?</h3>
+<p>Link on Today above the list. Sheet listing the first 5 due items, each with Move · Optional · Skip. <i>Keep everything else</i>. <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The brief places this inside the morning check-in; the prototype reaches it from Today only. Also decide how to reach items beyond the first 5.</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">End of day, day end time, editing the past</h3>
+<ul>
+<li>Day end: Midnight (default) · 1:00 AM · 2:00 AM · 3:00 AM. Set in onboarding and You → Day ends at.</li>
+<li>Close-out: if items remain → Reflection sheet ("What made today harder?" Too much planned / Low energy / Distracted / Unexpected day / Timing was bad / Other, optional note, Save and close / Skip); if complete → Day summary sheet.</li>
+<li>History: last 7 days with score, detail and tags. Recent days show <i>Edit day</i>; edited days show "Edited after the day ended". Historical scores never change silently.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> 11:00 PM and Custom day-end options (specified, not designed).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The correction window is inconsistent in the design: the day-end sheet says one hour after close, the breakdown toast says 15 minutes, and History shows Edit on the last two days. Choose one.<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether a day auto-closes at day end if the user never taps Close out (recommended: yes).</p>
+<h3 style="font-size:12pt;margin:18px 0 6px">Focus timer</h3>
+<p>Offered only for eligible commitments (name contains Study, Deep work, Code, Write, Read or Practice) via the Priority card Focus button, the actions sheet, or the Log sheet for duration items. Full-screen, ring countdown, 25 / 45 / 60 min / Custom, Start / Pause / Restart, Leave focus. Secondary to the commitment. <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Custom length input (the prototype resets to 25), and auto-logging on finish.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">31. One-day rescheduling</h2>
+<p><b>Purpose.</b> Move a single occurrence without touching the recurring schedule.</p>
+<p><b>User story.</b> As a user, when I can't work out this Wednesday, I want to move just today's workout to tomorrow.</p>
+<p><b>Behaviour.</b> ⋯ → Move today (or Adjust → Move) → sheet "Move Workout": "Today's occurrence only. The recurring schedule — Mon · Wed · Fri — stays as it is." Options: Tomorrow (Thu date) · Later this week (Sat date) · Choose a date · Cancel. If the target day is heavy: "You already have 9 commitments tomorrow. You can still move it." Never blocked. Toast confirms "…moved to tomorrow. Schedule unchanged."</p>
+<p><b>Rules.</b> The moved occurrence leaves today's list and score and is added to the target day.</p>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Choose-a-date picker. Whether the target day already having that commitment creates two occurrences. Streak treatment. Whether moving is allowed after the day ends. The conflict warning threshold (the prototype always shows it).</p>
+<p><b>Acceptance criteria.</b> After moving, the commitment's schedule in detail is unchanged. It's absent from today and present on the chosen day. Today's score recalculates without it.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">32. Offline, timezone &amp; sync states</h2>
+<ul>
+<li><b>Offline banner</b> on Today: "Offline — Completing, logging and editing all still work. Changes will sync when you reconnect — your group sees them then." plus pending social actions ("2 nudges and 1 friend request will send when you're back online").</li>
+<li>Offline, users can view Today, complete, log progress, view cached history and create/edit personal commitments. Friend requests, joins, nudges and leaderboard refreshes queue.</li>
+<li><b>Timezone change:</b> "Your timezone changed to GMT+4. Tendo uses it from today — yesterday's day closed on your old clock, so the streak is safe."</li>
+<li><b>Sync conflict sheet:</b> "This changed on another device" · <i>Keep this version</i> (with its details and time) · <i>Use the latest version</i>. No technical terms.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Where the sync-conflict sheet is triggered (it is designed but has no entry point in the prototype; recommend showing it on next open of the affected commitment).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Queued-action expiry, and whether a queued nudge still counts toward the daily limit.</p>
+<p><b>Acceptance criteria.</b> In airplane mode every personal action succeeds and the offline banner shows. On reconnect, queued actions send in order and the banner clears.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">33. Accessibility</h2>
+<ul>
+<li>Text contrast ≥ 4.5:1 for body and secondary text in both themes. Muted text #9A8E82 on #14100D is the lowest permitted.</li>
+<li>Touch targets ≥ 44 × 44 pt (row ⋯ buttons are 44 wide).</li>
+<li>State is never conveyed by colour alone: ✓ box, dash, strikethrough and text badges (SKIPPED, PAUSED, OPTIONAL, ARCHIVED, TRAVEL, RECOVERY).</li>
+<li>Screen-reader labels on every commitment row: name, state and action ("Hold to complete / undo"). Every ⋯ labelled "More actions for [name]". Toggles expose switch role and state.</li>
+<li><b>Hold-to-complete</b> needs an accessible alternative. <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Recommend a VoiceOver/TalkBack custom action "Complete" plus the detail screen's Complete now.</li>
+<li>Dynamic type up to the largest sizes without truncation. No fixed-height text boxes.</li>
+<li>Charts have text equivalents (numbers beside every bar; the Stats chart has a summary line).</li>
+<li>Animations are non-essential; respect Reduce Motion (skip the sink-to-bottom animation and hold sweep).</li>
+<li>Logical reading order matches visual order. Sheets trap focus and announce as dialogs.</li>
+</ul>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">34. Privacy, data &amp; account deletion</h2>
+<p><b>Privacy &amp; Data hub</b> (You → Privacy &amp; Data): Who sees what (Social privacy, Notifications &amp; email, Blocked users) · mood privacy statement · Your data (Export my data, What Tendo stores) · Legal (Privacy Policy, Terms of Service) · separated Delete account.</p>
+<ul>
+<li><b>Data minimisation:</b> no location, contacts, camera, microphone or health data. Any future permission gets an explainer first.</li>
+<li><b>What Tendo stores</b> sheet: email and name, commitments and history, score and streak, mood (only you), reflections (only you), group activity (that group), plus a line that service providers will be listed in the Privacy Policy.</li>
+<li><b>Export:</b> "Request export" → confirmation "Requested. We'll email a download link when it's ready." Includes commitments with schedule history, completion record, scores and streaks, group memberships and shared commitments, reflections and mood check-ins.</li>
+<li><b>Delete account:</b> reachable from Privacy &amp; Data and Your data, without contacting support. Confirmation sheet explains permanent removal of account and cloud data; type DELETE to enable the red button; Cancel always available. Returns to Welcome.</li>
+<li><b>Legal screens:</b> Privacy Policy, Terms, Licenses show "Draft · pending legal review" with section outlines. No invented legal text.</li>
+<li><b>Signup consent:</b> "By continuing, you agree to the Terms of Service and Privacy Policy." No bundled or pre-checked marketing, analytics or notification consent.</li>
+<li><b>About Tendo:</b> Version, Support (support@tendo.app), Privacy Policy, Terms, Licenses, placeholder for developer/company details.</li>
+<li>No cookie banner in the native app. No fabricated social proof or unsupported claims anywhere.</li>
+</ul>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Data retention period after deletion, and treatment of the user's contributions in shared groups (anonymise vs remove).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Deleting an account with an active subscription (warn to cancel in the store first).<br><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Whether Delete should require re-authentication in addition to typing DELETE.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">35. Empty, loading, error &amp; edge states</h2>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19;width:28%">Situation</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Designed state</th></tr></thead>
+<tbody>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">No commitments</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"Nothing committed yet." + <i>Add your first</i></td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">All done</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"100% · All commitments complete. keep your way" + Close out the day. No empty "still to do" section.</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Score too new</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"—" + "Too new to rate · day 3 of 5"</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Missed yesterday / broken streak</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Neutral banner with score, streak reset and recovery estimate</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">No groups</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"Discipline holds better with witnesses."</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">No friends</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"No one yet." with privacy reassurance</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">No search results</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Friends: "No one by that name." Packs: "No pack by that name." Manage: "Nothing matches that. Try another filter."</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Nothing archived / blocked</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"Nothing archived." / "Nobody blocked."</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Auth errors</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Inline: "Tell us what to call you.", "That email doesn't look right.", "Password needs at least 8 characters.", "Enter your password.", "That code doesn't match…"; field border turns red; password strength meter (3 bars)</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Bad join code</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">"No group with that code. Check it and try again."</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Signing in</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Button label "Signing in…"</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Offline, timezone, sync conflict</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">See section 32</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Confirmations</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Toasts for completed actions (bottom, auto-dismiss ~2.6 s)</td></tr>
+</tbody></table>
+<p><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Loading/skeleton states for Today, Groups, leaderboards and Stats, and generic server-error copy. None are designed.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">36. Design-system requirements</h2>
+<table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Token</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Warm dark (default)</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Pure black</th><th style="text-align:left;padding:6px 8px;border-bottom:2px solid #1F1C19">Use</th></tr></thead>
+<tbody>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">bg</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#14100D</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#000000</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">App background</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">surface</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#1E1915</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#0D0D0D</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Cards, rows, sheets</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">raised / divider</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#2A231D</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#1B1B1B</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Avatars, tracks, dividers</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">border</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#3A312A</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#272727</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Outlined pills, inputs</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">text / secondary / muted</td><td colspan="2" style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#F4EDE4 / #A79A8C / #9A8E82</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Shared across themes</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">olive accent</td><td colspan="2" style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#8C9B6E · tints #26301C #1B2116 #33402A · pressed #76845B</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Primary buttons, score, positive states</td></tr>
+<tr><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">caution / destructive</td><td colspan="2" style="padding:5px 8px;border-bottom:1px solid #E4DED5;font-family:'IBM Plex Mono',monospace">#C0A98A / #D69A8C, #E0A596 · border #4A322B</td><td style="padding:5px 8px;border-bottom:1px solid #E4DED5">Skipped, limits, delete</td></tr>
+</tbody></table>
+<ul>
+<li><b>Typography:</b> Proxima Nova Semibold throughout (single weight), fallback Montserrat 600. Display titles 30–42 px with −0.02 to −0.03 em tracking; body 13–16 px; section labels 11 px uppercase, +0.16 em tracking. <span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> Proxima Nova is a commercial typeface. A mobile app embedding licence must be bought, or the fallback adopted.</li>
+<li><b>Radii:</b> 8 (small pills), 10 (inputs, list buttons), 12 (cards, primary buttons), 14–16 (large cards, widgets), 18 (sheet top), 999 (toggles, round chips).</li>
+<li><b>Components:</b> primary button (olive fill), secondary (outlined), text link; outlined/filled pill chips (single- and multi-select); segmented period chips; list group with dividers; 46 × 28 toggle; checkbox box 22–24 px with ✓; status badge (outlined 10.5 px uppercase); bottom sheet with grabber, scrim, max 88% height, internal scroll; toast; semi-circular score gauge; progress bar 4–8 px; initials avatar (rounded square).</li>
+<li><b>Motion:</b> hold sweep fill (duration 380 ms + weight × 420 ms); completed row holds ~520 ms, then settles below unfinished (~320 ms); sheet rise 220 ms; gauge 400 ms ease. All skippable under Reduce Motion.</li>
+<li><b>Icons:</b> only in the tab bar and functional checks. No decorative icons or emoji; mood options are text only.</li>
+<li><b>Voice:</b> calm, factual, coach-like. No guilt, shame, urgency or unsupported claims. Motto "keep your way" is always lowercase.</li>
+</ul>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">37. Acceptance criteria summary</h2>
+<h3 style="font-size:12pt;margin:18px 0 6px">Authentication &amp; onboarding</h3>
+<ul>
+<li>Register validates name, email format and password ≥ 8, with inline errors and a 3-level strength meter. Show/Hide toggles the password.</li>
+<li>Verify accepts exactly 6 digits (non-digits stripped). Resend shows a toast. "Change it" returns to Register.</li>
+<li>Sign in validates, shows "Signing in…", then goes to check-in. "Stay signed in" defaults on. Forgot sends a reset link and returns to Sign in.</li>
+<li>Apple/Google on Register → onboarding; on Sign in → check-in.</li>
+<li>Onboarding is 3 steps. Step 2 requires ≥ 1 selection ("Pick at least one"). Step 3 sets day end. Then the permission explainer, then check-in.</li>
+<li><span style="background:#F6E3BF;padding:0 5px;border-radius:3px;font-weight:600;white-space:nowrap">Decision required</span> The specified onboarding additions (day start time, successful-day threshold, packs in onboarding) aren't designed.</li>
+</ul>
+<h3 style="font-size:12pt;margin:18px 0 6px">Today</h3>
+<ul>
+<li>Holding a pending row fills a sweep for a duration proportional to its weight, then completes it. Releasing early cancels. A short tap opens detail. Holding a completed or skipped row undoes it.</li>
+<li>Completed rows stay in place ~0.5 s, then animate below all unfinished rows within their time-of-day group. Undone rows return to their original position. Unfinished order is never changed.</li>
+<li>Time-of-day sections (Morning, Afternoon, Evening, Any time, each with a done/total count) appear only when more than 4 items are due and they span more than 1 section.</li>
+<li>Group-shared rows show the group badge. Measured rows show progress, a bar and a tappable progress label.</li>
+<li>The score gauge, number and coach line update on every change without reload.</li>
+</ul>
+<h3 style="font-size:12pt;margin:18px 0 6px">All other features</h3>
+<p>See the acceptance criteria at the end of each of sections 12–34.</p>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19;break-before:page">Appendix A · Decisions required</h2>
+<ol style="font-size:9.5pt">
+<sc-for list="{{ decisions }}" as="d" hint-placeholder-count="10">
+<li style="margin-bottom:4px"><b>{{ d.area }}:</b> {{ d.q }}</li>
+</sc-for>
+</ol>
+
+<h2 style="font-size:17pt;margin:30px 0 8px;padding-top:12px;border-top:2px solid #1F1C19">Appendix B · Feature status table</h2>
+<p style="font-size:9pt;color:#4A443D">Priority: P0 = launch-blocking core loop · P1 = launch · P2 = launch if ready. Status: <b>Designed</b> = fully specified in prototype · <b>Partial</b> = screen exists, rules or inputs open · <b>Placeholder</b> = labelled only · <b>Not designed</b>.</p>
+<table style="width:100%;border-collapse:collapse;font-size:8.8pt;margin:8px 0">
+<thead><tr><th style="text-align:left;padding:5px 6px;border-bottom:2px solid #1F1C19">Feature</th><th style="text-align:left;padding:5px 6px;border-bottom:2px solid #1F1C19">MVP/Future</th><th style="text-align:left;padding:5px 6px;border-bottom:2px solid #1F1C19">Priority</th><th style="text-align:left;padding:5px 6px;border-bottom:2px solid #1F1C19">Dependencies</th><th style="text-align:left;padding:5px 6px;border-bottom:2px solid #1F1C19">Status</th></tr></thead>
+<tbody>
+<sc-for list="{{ features }}" as="f" hint-placeholder-count="20">
+<tr><td style="padding:4px 6px;border-bottom:1px solid #E4DED5;font-weight:600">{{ f.name }}</td><td style="padding:4px 6px;border-bottom:1px solid #E4DED5">{{ f.scope }}</td><td style="padding:4px 6px;border-bottom:1px solid #E4DED5">{{ f.pri }}</td><td style="padding:4px 6px;border-bottom:1px solid #E4DED5;color:#4A443D">{{ f.deps }}</td><td style="padding:4px 6px;border-bottom:1px solid #E4DED5"><span style="padding:1px 6px;border-radius:3px;background:{{ f.bg }};white-space:nowrap">{{ f.status }}</span></td></tr>
+</sc-for>
+</tbody></table>
+<p style="margin-top:28px;text-align:center;color:#6B645B">keep your way</p>
+</doc-page>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SCREENS = [
+  ['Welcome','Auth','Logo, Tendo, keep your way, one-line proposition, Create an account, I already have an account, terms line'],
+  ['Register','Auth','Name, email, password with show/hide and strength meter, errors, Create account, Apple/Google, terms, sign-in link'],
+  ['Verify email','Auth','6-digit code, error, Verify, Resend code, Change it'],
+  ['Sign in','Auth','Email, password, Stay signed in, Forgot password, Apple/Google, create link'],
+  ['Reset password','Auth','Email, Send reset link'],
+  ['Onboarding 1–3','Onboarding','What are you trying to build? · Start with these. · When does your day end?'],
+  ['Notification explainer','Onboarding (sheet)','Allow notifications? Continue / Not now'],
+  ['Check-in: mood','Daily','5 moods, Continue, Skip, privacy line'],
+  ['Check-in: priority','Daily','Pick one of today\u2019s commitments, Start the day / No priority today'],
+  ['Today','Today tab','Header, banners, score gauge, coach line, Priority card, commitments list, Add / Manage'],
+  ['Score breakdown','Today','The math per commitment, totals, skip rule, adaptive weight, correct yesterday'],
+  ['Commitment detail','Today','Tiles, momentum, why, weight reason, 14-day grid, Complete / More, Schedule'],
+  ['Custom schedule','Today','Pattern, days, time of day, start/end, summary, Save'],
+  ['Add commitment','Today','Name, type, target, category, suggestions, cadence, why, weight card, Browse packs'],
+  ['Packs','Today','Search, 12 categories, 32 pack cards'],
+  ['Pack preview','Today','Items, Customize, duplicate card, Add N'],
+  ['Manage commitments','Today / You','Search, status + category filters, rows with ⋯'],
+  ['Weekly Review','Today / You','Average, delta, tiles, hardest/strongest, detail, next-week actions'],
+  ['Actions sheet','Sheet','Complete, Skip, Pause, Archive, Optional, Priority, Focus, Move today, Delete'],
+  ['Move sheet','Sheet','Tomorrow, Later this week, Choose a date, conflict warning'],
+  ['Log progress sheet','Sheet','Value / target, bar, quick adds, Done, Start timer, credit note'],
+  ['Anything different today?','Sheet','5 items × Move / Optional / Skip'],
+  ['Focus timer','Full-screen','Ring countdown, lengths, Start/Pause, Leave'],
+  ['Close-out / Reflection','Sheet','Day summary or What made today harder? + note'],
+  ['Activity','Sheet','Recent social activity lines'],
+  ['Link completion','Sheet','Count for both / Keep separate'],
+  ['Groups','Groups tab','Limit label, group cards, Join / Create, limit card, Friends row'],
+  ['Create group','Groups','Name, goal, first shared commitment, invite friends, code'],
+  ['Join group','Sheet','Code input, error, Join'],
+  ['Group home','Groups','Score, streak, recap, shared commitments, leaderboard, challenge, activity'],
+  ['Group settings','Groups','Role, name, mute, members, notifications, leave/report/delete'],
+  ['Member sheet','Sheet','Profile, admin, disable nudges, remove, block, report'],
+  ['Shared commitment','Groups','Name, audience label, cadence, participants, dates'],
+  ['Challenge','Groups','90% Week, on-pace list, other challenges'],
+  ['Nudge sheet','Sheet','4 preset messages'],
+  ['Upgrade sheet','Sheet','Keep going with Tendo Pro, Upgrade / Not now'],
+  ['Friends','Groups / You','Search, results, requests, friends list'],
+  ['Friend profile','Groups / You','Stats, groups in common, Invite, Remove'],
+  ['Stats','Stats tab','30-day chart, today / 30-day avg / best, summary, history link'],
+  ['History','Stats','7 days with tags, Edit day, edited flag'],
+  ['You','You tab','Profile, people, plan, day, settings, appearance, tone, recovery, travel, weekly review, account'],
+  ['Day end','Sheet','Midnight / 1 / 2 / 3 AM'],
+  ['Recovery Day','Sheet','Explanation, left this quarter, Use / Cancel'],
+  ['Travel mode','You','Dates, pause checklist, summary, Start/End'],
+  ['Reminders','You','Morning, per-commitment, evening, last call'],
+  ['Notifications','You','My day, social, email, who can nudge me'],
+  ['Widgets','You','Today, Remaining, Streak concepts'],
+  ['Tendo Pro','You','Available now, coming later, plans, terms, Upgrade, Restore, Manage, Not now'],
+  ['Subscription','You','Plan, status, renewal, Manage in store, Cancel, Restore'],
+  ['Pro downgrade','You','Grace period, choose 2 groups, Continue on Free'],
+  ['Privacy & Data','You','Who sees what, your data, legal, delete account'],
+  ['Social privacy','You','Score, commitments, streak, nudges'],
+  ['Blocked users','You','List, Unblock'],
+  ['Your data / Export','You','Export contents, Request export, delete zone'],
+  ['What Tendo stores','Sheet','Data item, who sees it, why'],
+  ['Confirm delete','Sheet','Typed confirmation for account or group'],
+  ['Legal','You','Privacy Policy / Terms / Licenses placeholders'],
+  ['About Tendo','You','Version, support, legal, licenses'],
+  ['Sync conflict','Sheet','Keep this version / Use latest version']
+].map(([name, area, desc]) => ({ id: name, name, area, desc }));
+
+const DECISIONS = [
+  ['Users','Minimum age and age gate.'],
+  ['Navigation','Tab label: "Stats" or "Progress".'],
+  ['Creation','X-times-per-week count, every-X-days interval, start/end date inputs.'],
+  ['Creation','Time of day on Add screen vs Custom schedule only.'],
+  ['Creation','Edit name/category/type after creation (no Edit action today).'],
+  ['Creation','Warn on duplicate personal commitment names.'],
+  ['Creation','Confirmation before Delete.'],
+  ['Creation','"Keep your list meaningful" guidance for many trivial commitments.'],
+  ['Types','Weekly-target contribution to the daily score.'],
+  ['Types','Unit selection for Amount commitments.'],
+  ['Types','Per-commitment toggle for proportional credit.'],
+  ['Types','Auto-log focus-timer time to duration commitments.'],
+  ['States','Pause end date (indefinite vs until date).'],
+  ['States','Skip and reschedule effect on streaks.'],
+  ['Score','Final weight formula, cap and window; update frequency.'],
+  ['Score','Successful/clean day threshold.'],
+  ['Score','Display when nothing is due.'],
+  ['Streaks','Personal streak rule; group streak with skipped/optional; weekly and interval commitments.'],
+  ['Mood','Changing mood later; copy matrix for all tone states.'],
+  ['Weekly Review','Week-ending day setting; history of past reviews; recovery/travel in average.'],
+  ['Packs','Mapping pack categories to commitment categories.'],
+  ['Packs','Unified search across suggestions, packs and categories.'],
+  ['Packs','Difference between Keep existing and Skip duplicate.'],
+  ['Friends','Block/Report on friend profile; username rules; status editing.'],
+  ['Groups','Role-gated member actions; ownership transfer; rename and icon UI.'],
+  ['Groups','Selectable first shared commitment; full-group (12) behaviour; challenge creation.'],
+  ['Shared','Per-participant detail screen; declining; weights in group score.'],
+  ['Leaderboard','Slipping threshold; hidden-score members; new members in weekly view.'],
+  ['Privacy','Privacy-first defaults; per-group name visibility; group activity control.'],
+  ['Notifications','Default toggles; reminder time editing and creation.'],
+  ['Free limit','Invite acceptance at 2/2; inactive groups counting toward the limit.'],
+  ['Downgrade','Grace length; no-choice default; inactive-member visibility.'],
+  ['Subscription','Real pricing and currency; trial; Google Play copy.'],
+  ['Travel','Date pickers, auto-end, future trips.'],
+  ['Recovery','Allowance, reset, retroactive use, score storage.'],
+  ['Adjust','Placement in morning check-in; access beyond 5 items.'],
+  ['Day end','11 PM and Custom options; correction window (1 h vs 15 min vs 2 days); auto-close.'],
+  ['Focus','Custom length input.'],
+  ['Reschedule','Date picker; duplicate on target day; post-close moves; conflict threshold.'],
+  ['Sync','Conflict trigger point; queued-action expiry; queued nudges vs daily limit.'],
+  ['Accessibility','Alternative to hold-to-complete for assistive tech.'],
+  ['Deletion','Retention period; shared-group contributions; active subscription; re-auth.'],
+  ['States','Loading/skeleton and server-error states.'],
+  ['Design','Proxima Nova licence vs Montserrat fallback.'],
+  ['Widgets','MVP or post-MVP; Free or Pro.']
+].map(([area, q], i) => ({ id: 'd' + i, area, q }));
+
+const COLORS = { Designed:'#DCE5CC', Partial:'#F6E3BF', Placeholder:'#E8E3DB', 'Not designed':'#F3D3CC' };
+const FEATURES = [
+  ['Registration, verification, sign-in, reset','MVP','P0','Auth provider, email service','Designed'],
+  ['Apple / Google sign-in','MVP','P1','Auth provider','Designed'],
+  ['Onboarding (3 steps)','MVP','P0','Commitments, day end','Designed'],
+  ['Notification permission explainer','MVP','P1','Push service','Designed'],
+  ['Mood check-in','MVP','P1','Tone engine','Designed'],
+  ["Today's Priority",'MVP','P2','Check-in, Today','Designed'],
+  ['Adaptive tone (Gentle/Balanced/Push me)','MVP','P2','Mood check-in','Partial'],
+  ['Today screen + hold-to-complete','MVP','P0','Commitments, score','Designed'],
+  ['Unfinished-first ordering + time sections','MVP','P1','Today','Designed'],
+  ['Commitment creation + suggestions','MVP','P0','Categories library','Designed'],
+  ['Commitment types (amount/duration/weekly)','MVP','P1','Creation, score, log sheet','Partial'],
+  ['Custom scheduling','MVP','P1','Scheduler, history snapshots','Partial'],
+  ['Commitment detail + momentum','MVP','P1','History data','Designed'],
+  ['Why I do this + reason reminder','MVP','P2','Commitment detail','Designed'],
+  ['Manage: search + filters','MVP','P1','Commitment states','Designed'],
+  ['Skip / pause / archive / delete','MVP','P0','Commitment states, score','Partial'],
+  ['Optional today + heavy-day suggestion','MVP','P2','Score','Designed'],
+  ['One-day reschedule','MVP','P1','Scheduler','Partial'],
+  ['Anything different today?','MVP','P2','Skip, optional, move','Partial'],
+  ['Discipline Score + adaptive weights','MVP','P0','Completion history','Partial'],
+  ['Score breakdown','MVP','P0','Score','Designed'],
+  ['Streaks (commitment, personal, group)','MVP','P0','Day close, score','Partial'],
+  ['Focus timer','MVP','P2','Duration type','Partial'],
+  ['Close-out + reflection','MVP','P1','Day end','Designed'],
+  ['Day end time','MVP','P0','Scheduler','Partial'],
+  ['History + edit day','MVP','P1','Day snapshots, audit log','Partial'],
+  ['Stats (30-day)','MVP','P1','Score history','Designed'],
+  ['Weekly Review','MVP','P1','Score history','Partial'],
+  ['Commitment Packs (32)','MVP','P1','Creation, duplicate check','Partial'],
+  ['Travel mode','MVP','P1','Pause, history tags','Partial'],
+  ['Recovery Day','MVP','P1','Streaks, history','Partial'],
+  ['Friends + requests + profiles','MVP','P0','Usernames, social backend','Partial'],
+  ['Groups: create, join, list, home','MVP','P0','Friends, invite codes','Designed'],
+  ['Group roles + settings','MVP','P1','Groups','Partial'],
+  ['Shared commitments','MVP','P0','Groups, Today','Partial'],
+  ['Personal + group link','MVP','P2','Shared commitments','Designed'],
+  ['Group score + leaderboard (ties, periods)','MVP','P0','Shared commitments','Designed'],
+  ['Nudges (preset, rate-limited)','MVP','P1','Push, privacy','Designed'],
+  ['Group weekly recap','MVP','P2','Group score history','Designed'],
+  ['Group challenges (view)','MVP','P2','Group score','Partial'],
+  ['Social privacy controls','MVP','P0','Friends, groups','Partial'],
+  ['Block / report / mute','MVP','P0','Moderation backend','Partial'],
+  ['Notifications + email preferences','MVP','P1','Push, email service','Partial'],
+  ['Reminders','MVP','P1','Push','Partial'],
+  ['Tendo Pro (unlimited groups)','MVP','P1','Store billing','Designed'],
+  ['Two-group Free limit + upgrade sheet','MVP','P1','Pro, groups','Designed'],
+  ['Subscription management + restore','MVP','P1','Store billing','Designed'],
+  ['Pro downgrade + grace period','MVP','P1','Pro, groups','Partial'],
+  ['Privacy & Data hub','MVP','P0','Legal copy','Designed'],
+  ['Data export','MVP','P1','Export job, email','Designed'],
+  ['Account deletion','MVP','P0','Backend deletion job','Designed'],
+  ['Legal: Privacy Policy, Terms, Licenses','MVP','P0','Legal review','Placeholder'],
+  ['About Tendo','MVP','P2','—','Designed'],
+  ['Offline mode + queued social actions','MVP','P1','Local store, sync','Designed'],
+  ['Timezone handling','MVP','P1','Day close','Designed'],
+  ['Sync conflict resolution','MVP','P2','Sync','Partial'],
+  ['Appearance: Warm dark / Pure black','MVP','P2','Design tokens','Designed'],
+  ['Accessibility (labels, contrast, motion)','MVP','P0','All screens','Partial'],
+  ['Loading / error states','MVP','P1','All screens','Not designed'],
+  ['Widgets (Today, Remaining, Streak)','Decision required','P2','Widget extension','Partial'],
+  ['Calendar connect','MVP (connect only)','P2','Calendar API','Placeholder'],
+  ['Live Activities','Future','—','Focus timer','Not designed'],
+  ['AI Coach','Future (Pro)','—','Behaviour data','Placeholder'],
+  ['Advanced Analytics','Future (Pro)','—','Score history','Placeholder'],
+  ['Deeper Customization','Future (Pro)','—','Design tokens','Placeholder']
+].map(([name, scope, pri, deps, status]) => ({ id: name, name, scope, pri, deps, status, bg: COLORS[status] || '#E8E3DB' }));
+
+class Component extends DCLogic {
+  renderVals() {
+    return { screens: SCREENS, decisions: DECISIONS, features: FEATURES };
+  }
+}
+
+</script>
+</body>
+</html>
