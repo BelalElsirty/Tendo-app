@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; background:#0A0908; }
+a { color:#8C9B6E; text-decoration:none; }
+a:hover { color:#A9B88A; }
+* { -webkit-tap-highlight-color: transparent; }
+::-webkit-scrollbar { width:0; height:0; }
+</style>
+</helmet>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="1" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:#0F0E0C;font-family:'Instrument Sans',system-ui,sans-serif;position:relative;overflow:hidden;color:#EDE7DA">
+
+  <sc-if value="{{ isOnboard }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:86px 26px 32px;display:flex;flex-direction:column">
+      <sc-if value="{{ onb0 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;flex:1">
+          <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600">TENDO · FIRST RUN</div>
+          <div style="font-family:'Instrument Serif',serif;font-size:44px;line-height:1.02;margin-top:20px;letter-spacing:-.01em">What are you<br>trying to build?</div>
+          <div style="font-size:15px;line-height:1.5;color:#9A9385;margin-top:14px;max-width:290px">Say it plainly. Tendo turns it into a handful of daily commitments you can actually keep.</div>
+          <input placeholder="Discipline in the morning" style="margin-top:28px;width:100%;box-sizing:border-box;background:#191713;border:1px solid #34312B;border-radius:2px;padding:16px 16px;color:#EDE7DA;font-family:'Instrument Sans',sans-serif;font-size:16px;outline:none">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+            <div style="padding:9px 14px;border:1px solid #34312B;border-radius:2px;font-size:13px;color:#9A9385">Get stronger</div>
+            <div style="padding:9px 14px;border:1px solid #34312B;border-radius:2px;font-size:13px;color:#9A9385">Write every day</div>
+            <div style="padding:9px 14px;border:1px solid #34312B;border-radius:2px;font-size:13px;color:#9A9385">Off my phone</div>
+            <div style="padding:9px 14px;border:1px solid #34312B;border-radius:2px;font-size:13px;color:#9A9385">Sleep on time</div>
+          </div>
+          <div style="flex:1;min-height:24px"></div>
+          <div onClick="{{ toStep1 }}" style="background:#8C9B6E;color:#0F0E0C;border-radius:2px;padding:18px;text-align:center;font-weight:600;font-size:16px;cursor:pointer" style-active="opacity:.8">Continue</div>
+          <div style="text-align:center;font-size:12px;color:#8A8175;margin-top:14px">Step 1 of 2</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ onb1 }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;flex:1">
+          <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600">DISCIPLINE IN THE MORNING</div>
+          <div style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1.05;margin-top:18px">Start with five.</div>
+          <div style="font-size:15px;line-height:1.5;color:#9A9385;margin-top:12px;max-width:300px">Drop anything that isn't yours. You can add more once these hold.</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px">
+            <div style="display:flex;align-items:center;gap:14px;background:#191713;border-radius:2px;padding:16px">
+              <div style="width:22px;height:22px;border-radius:2px;background:#8C9B6E;flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:15px;font-weight:500">Cold plunge</div><div style="font-size:12px;color:#8A8175;margin-top:3px">Body · every morning</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:#191713;border-radius:2px;padding:16px">
+              <div style="width:22px;height:22px;border-radius:2px;background:#8C9B6E;flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:15px;font-weight:500">No phone before 9am</div><div style="font-size:12px;color:#8A8175;margin-top:3px">Focus · every morning</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:#191713;border-radius:2px;padding:16px">
+              <div style="width:22px;height:22px;border-radius:2px;background:#8C9B6E;flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:15px;font-weight:500">Lift — push day</div><div style="font-size:12px;color:#8A8175;margin-top:3px">Body · Mon, Wed, Fri</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:#191713;border-radius:2px;padding:16px">
+              <div style="width:22px;height:22px;border-radius:2px;border:1.5px solid #34312B;box-sizing:border-box;flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:15px;font-weight:500;color:#9A9385">Read 20 pages</div><div style="font-size:12px;color:#8A8175;margin-top:3px">Mind · every day</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:#191713;border-radius:2px;padding:16px">
+              <div style="width:22px;height:22px;border-radius:2px;background:#8C9B6E;flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:15px;font-weight:500">Write 200 words</div><div style="font-size:12px;color:#8A8175;margin-top:3px">Craft · every day</div></div>
+            </div>
+          </div>
+          <div style="flex:1;min-height:24px"></div>
+          <div onClick="{{ finishOnb }}" style="background:#8C9B6E;color:#0F0E0C;border-radius:2px;padding:18px;text-align:center;font-weight:600;font-size:16px;cursor:pointer" style-active="opacity:.8">Start day 1</div>
+          <div style="text-align:center;font-size:12px;color:#8A8175;margin-top:14px">Your score starts once you have three days behind you.</div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-family:'Instrument Serif',serif;font-size:30px;letter-spacing:-.01em">Tuesday, 18 March</div>
+        <div style="font-size:11px;color:#8A8175;letter-spacing:.06em">DAY 46</div>
+      </div>
+
+      <sc-if value="{{ showMissed }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:16px;border:1px solid #3E2E28;background:#1E1815;border-radius:2px;padding:14px 16px">
+          <div style="font-size:14px;font-weight:600;color:#D69A8C">Yesterday closed at 34.</div>
+          <div style="font-size:13px;color:#9A9385;margin-top:4px;line-height:1.45">Your 9-day streak reset. The score recovers in about four clean days.</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column;align-items:center;margin-top:18px">
+        <svg width="236" height="132" viewBox="0 0 236 132">
+          <path d="M20 118 A98 98 0 0 1 216 118" fill="none" stroke="#262420" stroke-width="14" stroke-linecap="round"></path>
+          <path d="M20 118 A98 98 0 0 1 216 118" fill="none" stroke="#8C9B6E" stroke-width="14" stroke-linecap="round" stroke-dasharray="{{ dash }}" style="transition:stroke-dasharray .45s cubic-bezier(.2,.8,.2,1)"></path>
+        </svg>
+        <div style="margin-top:-86px;display:flex;flex-direction:column;align-items:center">
+          <div style="font-family:'Instrument Serif',serif;font-size:96px;line-height:1;letter-spacing:-.02em">{{ scoreText }}</div>
+          <div style="font-size:11px;color:#9A9385;margin-top:10px;letter-spacing:.06em;text-transform:uppercase">{{ deltaText }}</div>
+        </div>
+      </div>
+
+      <div style="margin-top:34px;font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#EDE7DA">{{ coach }}</div>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;border:1px dashed #34312B;border-radius:2px;padding:28px 22px;text-align:center">
+          <div style="font-family:'Instrument Serif',serif;font-size:24px">Nothing committed yet.</div>
+          <div style="font-size:14px;color:#9A9385;margin-top:8px;line-height:1.5">A score needs something to measure. Add two or three things you'd do on a good day.</div>
+          <div onClick="{{ goCreate }}" style="margin-top:18px;display:inline-block;background:#8C9B6E;color:#0F0E0C;border-radius:2px;padding:12px 22px;font-weight:600;font-size:14px;cursor:pointer">Add your first</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:26px;margin-bottom:10px">
+        <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600">TODAY</div>
+        <div style="font-size:11px;color:#8A8175;white-space:nowrap">HOLD TO COMPLETE</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;border-top:1px solid #262420">
+        <sc-for list="{{ tasks }}" as="t" hint-placeholder-count="4">
+          <div onPointerDown="{{ t.onDown }}" onPointerUp="{{ t.onUp }}" onPointerLeave="{{ t.onUp }}" onClick="{{ t.onOpen }}" style="position:relative;overflow:hidden;background:transparent;border-bottom:1px solid #262420;padding:17px 2px;display:flex;align-items:center;gap:14px;cursor:pointer;touch-action:none;user-select:none">
+            <div style="position:absolute;left:0;top:0;bottom:0;background:#222719;width:{{ t.fill }}"></div>
+            <div style="position:relative;width:24px;height:24px;border-radius:2px;flex-shrink:0;border:1.5px solid {{ t.boxBorder }};background:{{ t.boxBg }};display:flex;align-items:center;justify-content:center">
+              <sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}">
+                <svg width="13" height="10" viewBox="0 0 13 10"><path d="M1 5l4 4 7-8" fill="none" stroke="#0F0E0C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </sc-if>
+            </div>
+            <div style="position:relative;flex:1;min-width:0">
+              <div style="font-size:15.5px;font-weight:500;color:{{ t.nameColor }}">{{ t.name }}</div>
+              <div style="font-size:12px;color:#8A8175;margin-top:3px">{{ t.meta }}</div>
+            </div>
+            <div style="position:relative;font-size:12.5px;font-weight:600;color:{{ t.wColor }};font-variant-numeric:tabular-nums">{{ t.weightLabel }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ allDone }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:18px;border-radius:2px;background:#181B14;border:1px solid #2C3324;padding:18px">
+          <div style="font-family:'Instrument Serif',serif;font-size:22px">Day's work is done.</div>
+          <div style="font-size:13.5px;color:#9A9385;margin-top:6px;line-height:1.5">Closes at 3:00 AM. Anything you add now still counts toward today.</div>
+        </div>
+      </sc-if>
+
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:28px;margin-bottom:10px">SHARED · COLD PLUNGE CLUB</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ shared }}" as="t" hint-placeholder-count="1">
+          <div onPointerDown="{{ t.onDown }}" onPointerUp="{{ t.onUp }}" onPointerLeave="{{ t.onUp }}" style="position:relative;overflow:hidden;background:transparent;border-top:1px solid #262420;border-bottom:1px solid #262420;padding:17px 2px;display:flex;align-items:center;gap:14px;cursor:pointer;touch-action:none;user-select:none">
+            <div style="position:absolute;left:0;top:0;bottom:0;background:#222719;width:{{ t.fill }}"></div>
+            <div style="position:relative;width:24px;height:24px;border-radius:2px;flex-shrink:0;border:1.5px solid {{ t.boxBorder }};background:{{ t.boxBg }}"></div>
+            <div style="position:relative;flex:1"><div style="font-size:15.5px;font-weight:500;color:{{ t.nameColor }}">{{ t.name }}</div><div style="font-size:12px;color:#8A8175;margin-top:3px">{{ t.meta }}</div></div>
+            <div style="position:relative;font-size:12.5px;font-weight:600;color:{{ t.wColor }}">{{ t.weightLabel }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:12px;color:#8A8175;margin-top:10px;line-height:1.5">Shared tasks feed your group contribution, not your personal score.</div>
+
+      <div onClick="{{ goCreate }}" style="margin-top:22px;border:1px solid #34312B;border-radius:2px;padding:15px;text-align:center;font-size:14px;color:#9A9385;cursor:pointer">+ Add a commitment</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isTask }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px">
+      <div onClick="{{ goToday }}" style="font-size:14px;color:#9A9385;cursor:pointer">‹ Today</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:36px;margin-top:18px;line-height:1.1">{{ selName }}</div>
+      <div style="font-size:13px;color:#8A8175;margin-top:6px">{{ selCat }}</div>
+
+      <div style="display:flex;gap:10px;margin-top:22px">
+        <div style="flex:1;background:#191713;border-radius:2px;padding:14px"><div style="font-size:11px;color:#8A8175;letter-spacing:.2em">WEIGHT</div><div style="font-family:'Instrument Serif',serif;font-size:30px;margin-top:4px;color:#8C9B6E">{{ selWeight }}</div></div>
+        <div style="flex:1;background:#191713;border-radius:2px;padding:14px"><div style="font-size:11px;color:#8A8175;letter-spacing:.2em">STREAK</div><div style="font-family:'Instrument Serif',serif;font-size:30px;margin-top:4px">{{ selStreak }}</div></div>
+        <div style="flex:1;background:#191713;border-radius:2px;padding:14px"><div style="font-size:11px;color:#8A8175;letter-spacing:.2em">KEPT</div><div style="font-family:'Instrument Serif',serif;font-size:30px;margin-top:4px">{{ selRel }}</div></div>
+      </div>
+
+      <div style="margin-top:22px;background:#191713;border-radius:2px;padding:18px">
+        <div style="font-size:14px;font-weight:600">Why it's worth {{ selWeight }}</div>
+        <div style="font-size:13.5px;color:#9A9385;line-height:1.55;margin-top:8px">{{ selWhy }}</div>
+      </div>
+
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:26px;margin-bottom:12px">LAST 14 DAYS</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="14">
+          <div style="aspect-ratio:1;border-radius:2px;background:{{ d.bg }};border:1px solid {{ d.bd }}"></div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:26px">
+        <div onClick="{{ goToday }}" style="flex:1;background:#8C9B6E;color:#0F0E0C;border-radius:2px;padding:16px;text-align:center;font-weight:600;font-size:15px;cursor:pointer">Complete now</div>
+        <div style="padding:16px 20px;border:1px solid #34312B;border-radius:2px;font-size:15px;color:#9A9385;cursor:pointer">Edit</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:#8A8175;margin-top:18px;cursor:pointer">Retire this commitment</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCreate }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px;display:flex;flex-direction:column">
+      <div onClick="{{ goToday }}" style="font-size:14px;color:#9A9385;cursor:pointer">Cancel</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:36px;margin-top:18px">New commitment</div>
+      <input placeholder="Run 5k" style="margin-top:22px;width:100%;box-sizing:border-box;background:transparent;border:none;border-bottom:1px solid #34312B;padding:12px 0;color:#EDE7DA;font-family:'Instrument Serif',serif;font-size:26px;outline:none">
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:28px;margin-bottom:12px">CADENCE</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div style="padding:11px 16px;border-radius:2px;background:#8C9B6E;color:#0F0E0C;font-size:13.5px;font-weight:600">Every day</div>
+        <div style="padding:11px 16px;border-radius:2px;border:1px solid #34312B;font-size:13.5px;color:#9A9385">Weekdays</div>
+        <div style="padding:11px 16px;border-radius:2px;border:1px solid #34312B;font-size:13.5px;color:#9A9385">3× a week</div>
+        <div style="padding:11px 16px;border-radius:2px;border:1px solid #34312B;font-size:13.5px;color:#9A9385">Custom</div>
+      </div>
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:28px;margin-bottom:12px">CATEGORY</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div style="padding:11px 16px;border-radius:2px;border:1px solid #34312B;font-size:13.5px;color:#9A9385">Body</div>
+        <div style="padding:11px 16px;border-radius:2px;background:#262420;font-size:13.5px;color:#EDE7DA">Mind</div>
+        <div style="padding:11px 16px;border-radius:2px;border:1px solid #34312B;font-size:13.5px;color:#9A9385">Focus</div>
+        <div style="padding:11px 16px;border-radius:2px;border:1px solid #34312B;font-size:13.5px;color:#9A9385">Craft</div>
+      </div>
+      <div style="margin-top:28px;background:#191713;border-radius:2px;padding:18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="font-family:'Instrument Serif',serif;font-size:26px;color:#8C9B6E;line-height:1">×1.0</div>
+        <div style="font-size:13.5px;color:#9A9385;line-height:1.5">New commitments start at ×1.0. If you start skipping this one, Tendo raises its weight — the things you avoid are worth the most.</div>
+      </div>
+      <div style="flex:1;min-height:20px"></div>
+      <div onClick="{{ goToday }}" style="background:#8C9B6E;color:#0F0E0C;border-radius:2px;padding:18px;text-align:center;font-weight:600;font-size:16px;cursor:pointer">Add commitment</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGroups }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px">
+      <div style="font-family:'Instrument Serif',serif;font-size:42px;line-height:1">Groups</div>
+      <div style="font-size:14px;color:#9A9385;margin-top:6px;line-height:1.5">Ranked on 7-day average. Up to 12 people each.</div>
+
+      <div onClick="{{ openGroup }}" style="margin-top:22px;background:#191713;border-radius:2px;padding:18px;cursor:pointer">
+        <div style="display:flex;align-items:baseline;justify-content:space-between">
+          <div style="font-size:17px;font-weight:600">Cold Plunge Club</div>
+          <div style="font-size:12px;color:#8C9B6E;font-weight:600">{{ myRankLabel }}</div>
+        </div>
+        <div style="font-size:12.5px;color:#8A8175;margin-top:6px">Group streak 12 days · 8 of 12 members</div>
+        <div style="display:flex;gap:4px;margin-top:14px">
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#262420"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;background:#191713;border-radius:2px;padding:18px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between">
+          <div style="font-size:17px;font-weight:600">Morning Pages</div>
+          <div style="font-size:12px;color:#8C9B6E;font-weight:600">1st of 4</div>
+        </div>
+        <div style="font-size:12.5px;color:#8A8175;margin-top:6px">Group streak 5 days · 4 of 12 members</div>
+        <div style="display:flex;gap:4px;margin-top:14px">
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#8C9B6E"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#262420"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#262420"></div>
+          <div style="height:5px;flex:1;border-radius:1px;background:#262420"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <div style="flex:1;border:1px solid #34312B;border-radius:2px;padding:15px;text-align:center;font-size:14px;color:#9A9385">Join with code</div>
+        <div style="flex:1;border:1px solid #34312B;border-radius:2px;padding:15px;text-align:center;font-size:14px;color:#9A9385">Create group</div>
+      </div>
+      <div style="font-size:12px;color:#8A8175;margin-top:16px;line-height:1.5">Members see your score and your rank. They never see your individual tasks.</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGroup }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px">
+      <div onClick="{{ goGroups }}" style="font-size:14px;color:#9A9385;cursor:pointer">‹ Groups</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:40px;margin-top:16px;line-height:1.02">Cold Plunge Club</div>
+      <div style="font-size:13px;color:#8A8175;margin-top:6px">8 of 12 members · since January</div>
+
+      <div style="margin-top:20px;border-radius:2px;background:#181B14;border:1px solid #2C3324;padding:16px;display:flex;align-items:center;gap:14px">
+        <div style="font-family:'Instrument Serif',serif;font-size:34px;color:#8C9B6E;line-height:1">12</div>
+        <div style="font-size:13px;color:#9A9385;line-height:1.45">Day group streak. It breaks the moment one person misses.</div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:26px;margin-bottom:12px">
+        <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600">LEADERBOARD</div>
+        <div style="font-size:11px;color:#8A8175">7-DAY AVG</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ members }}" as="m" hint-placeholder-count="8">
+          <div style="display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:2px;background:{{ m.rowBg }}">
+            <div style="width:18px;font-size:12.5px;color:#8A8175;font-variant-numeric:tabular-nums">{{ m.rank }}</div>
+            <div style="width:34px;height:34px;border-radius:2px;background:#262420;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#9A9385;flex-shrink:0">{{ m.initials }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:15px;font-weight:500;color:{{ m.nameColor }}">{{ m.name }}</div>
+              <div style="font-size:11.5px;color:#8A8175;margin-top:2px">{{ m.note }}</div>
+            </div>
+            <sc-if value="{{ m.slipping }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ m.onNudge }}" style="padding:7px 13px;border-radius:2px;border:1px solid #403B33;font-size:12px;color:#9A9385;cursor:pointer;margin-right:4px">Nudge</div>
+            </sc-if>
+            <div style="font-family:'Instrument Serif',serif;font-size:24px;color:{{ m.scoreColor }};font-variant-numeric:tabular-nums">{{ m.score }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:26px;margin-bottom:10px">SHARED CHALLENGE</div>
+      <div style="background:#191713;border-radius:2px;padding:18px">
+        <div style="font-size:15.5px;font-weight:600">6am check-in, every day of March</div>
+        <div style="font-size:13px;color:#9A9385;margin-top:6px;line-height:1.5">18 of 31 days done. Two people are behind.</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px">
+      <div style="font-family:'Instrument Serif',serif;font-size:42px;line-height:1">Your score</div>
+      <div style="font-size:14px;color:#9A9385;margin-top:6px">Last 30 days</div>
+
+      <div style="margin-top:24px;background:#191713;border-radius:2px;padding:18px 16px 14px">
+        <svg width="100%" height="150" viewBox="0 0 300 150" preserveAspectRatio="none">
+          <line x1="0" y1="45" x2="300" y2="45" stroke="#262420" stroke-width="1"></line>
+          <line x1="0" y1="90" x2="300" y2="90" stroke="#262420" stroke-width="1" stroke-dasharray="3 4"></line>
+          <polygon points="{{ chartArea }}" fill="#8C9B6E" opacity="0.1"></polygon>
+          <polyline points="{{ chartPoints }}" fill="none" stroke="#8C9B6E" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
+          <circle cx="{{ lastX }}" cy="{{ lastY }}" r="4.5" fill="#8C9B6E"></circle>
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#8A8175;margin-top:8px">
+          <div>17 FEB</div><div>3 MAR</div><div>18 MAR</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <div style="flex:1;background:#191713;border-radius:2px;padding:14px"><div style="font-size:11px;color:#8A8175;letter-spacing:.2em">TODAY</div><div style="font-family:'Instrument Serif',serif;font-size:30px;margin-top:4px;color:#8C9B6E">{{ scoreText }}</div></div>
+        <div style="flex:1;background:#191713;border-radius:2px;padding:14px"><div style="font-size:11px;color:#8A8175;letter-spacing:.2em">30-DAY AVG</div><div style="font-family:'Instrument Serif',serif;font-size:30px;margin-top:4px">53</div></div>
+        <div style="flex:1;background:#191713;border-radius:2px;padding:14px"><div style="font-size:11px;color:#8A8175;letter-spacing:.2em">BEST</div><div style="font-family:'Instrument Serif',serif;font-size:30px;margin-top:4px">75</div></div>
+      </div>
+
+      <div style="margin-top:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;line-height:1.35">{{ statLine }}</div>
+      <div style="font-size:13.5px;color:#9A9385;margin-top:10px;line-height:1.55">The dip on 2 March was a four-day travel stretch. You came back inside a week — that's faster than last time.</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isYou }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow-y:auto;padding:70px 20px 20px">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:62px;height:62px;border-radius:2px;background:#262420;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:26px;color:#8C9B6E">AD</div>
+        <div><div style="font-family:'Instrument Serif',serif;font-size:28px">Ari Delmar</div><div style="font-size:13px;color:#8A8175;margin-top:2px">Day 46 · 2 groups</div></div>
+      </div>
+
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:30px;margin-bottom:10px">YOUR DAY</div>
+      <div style="background:#191713;border-radius:2px;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid #262420"><div style="font-size:15px">Day ends at</div><div style="font-size:15px;color:#8C9B6E;font-weight:600">3:00 AM</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid #262420"><div style="font-size:15px">Morning reminder</div><div style="font-size:15px;color:#9A9385">7:00 AM</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px"><div style="font-size:15px">Last call</div><div style="font-size:15px;color:#9A9385">1 hour before close</div></div>
+      </div>
+      <div style="font-size:12px;color:#8A8175;margin-top:10px;line-height:1.5">Nothing rolls over at midnight. Your day closes when you say it does.</div>
+
+      <div style="font-size:11px;letter-spacing:.24em;color:#8A8175;font-weight:600;margin-top:26px;margin-bottom:10px">PRIVACY</div>
+      <div style="background:#191713;border-radius:2px;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid #262420"><div style="font-size:15px">Groups see</div><div style="font-size:15px;color:#9A9385">Score only</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px"><div style="font-size:15px">Allow nudges</div><div style="width:46px;height:28px;border-radius:999px;background:#8C9B6E;position:relative"><div style="position:absolute;right:3px;top:3px;width:22px;height:22px;border-radius:999px;background:#0F0E0C"></div></div></div>
+      </div>
+
+      <div onClick="{{ replayOnb }}" style="margin-top:22px;border:1px solid #34312B;border-radius:2px;padding:15px;text-align:center;font-size:14px;color:#9A9385;cursor:pointer">Replay first run</div>
+      <div style="text-align:center;font-size:13px;color:#8A8175;margin-top:18px">Sign out</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;border-top:1px solid #262420;background:#121110;padding:12px 8px 30px;flex-shrink:0">
+      <div onClick="{{ goToday }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 13a7 7 0 0 1 14 0" stroke="{{ cToday }}" stroke-width="1.8" stroke-linecap="round"></path><path d="M10 13 14 8" stroke="{{ cToday }}" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        <div style="font-size:10.5px;color:{{ cToday }}">Today</div>
+      </div>
+      <div onClick="{{ goGroups }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7.5" cy="7" r="3" stroke="{{ cGroups }}" stroke-width="1.8"></circle><circle cx="14" cy="8.5" r="2.2" stroke="{{ cGroups }}" stroke-width="1.8"></circle><path d="M2.5 16c0-2.5 2.2-4 5-4s5 1.5 5 4" stroke="{{ cGroups }}" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        <div style="font-size:10.5px;color:{{ cGroups }}">Groups</div>
+      </div>
+      <div onClick="{{ goStats }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14l4-5 3.5 3L17 5" stroke="{{ cStats }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <div style="font-size:10.5px;color:{{ cStats }}">Stats</div>
+      </div>
+      <div onClick="{{ goYou }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.2" stroke="{{ cYou }}" stroke-width="1.8"></circle><path d="M4 17c0-3 2.7-5 6-5s6 2 6 5" stroke="{{ cYou }}" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        <div style="font-size:10.5px;color:{{ cYou }}">You</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:80">
+      <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(8,6,5,.66)"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;background:#191713;border-top-left-radius:2px;border-top-right-radius:2px;padding:22px 20px 44px">
+        <div style="width:38px;height:4px;border-radius:999px;background:#34312B;margin:0 auto 18px"></div>
+        <div style="font-family:'Instrument Serif',serif;font-size:26px">Nudge {{ nudgeName }}</div>
+        <div style="font-size:13.5px;color:#9A9385;margin-top:6px;line-height:1.5">Pick one. Tendo doesn't let you write your own — this is a tap on the shoulder, not a lecture.</div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:20px">
+          <sc-for list="{{ presets }}" as="p" hint-placeholder-count="4">
+            <div onClick="{{ closeSheet }}" style="border:1px solid #34312B;border-radius:2px;padding:15px 16px;font-size:15px;cursor:pointer" style-active="background:#262420">{{ p.label }}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:402,&quot;height&quot;:874},&quot;homeState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;normal&quot;,&quot;empty&quot;,&quot;allDone&quot;,&quot;newUser&quot;,&quot;missed&quot;],&quot;default&quot;:&quot;normal&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;States&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;today&quot;,&quot;onboard1&quot;,&quot;onboard2&quot;,&quot;task&quot;,&quot;create&quot;,&quot;groups&quot;,&quot;group&quot;,&quot;stats&quot;,&quot;you&quot;],&quot;default&quot;:&quot;today&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;States&quot;}}">
+const SERIES = [58,61,57,63,66,64,70,72,69,74,71,66,58,49,41,38,44,52,59,63,67,64,70,73,69,72,75,70,68,71];
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    const base = [
+      { id: 't1', name: 'Cold plunge', cat: 'Body · every morning', rel: 0.52, streak: 3, done: true },
+      { id: 't2', name: 'Read 20 pages', cat: 'Mind · every day', rel: 0.71, streak: 11, done: true },
+      { id: 't3', name: 'Lift — push day', cat: 'Body · Mon, Wed, Fri', rel: 0.86, streak: 24, done: true },
+      { id: 't4', name: 'No phone before 9am', cat: 'Focus · every morning', rel: 0.41, streak: 1, done: false },
+      { id: 't5', name: 'Write 200 words', cat: 'Craft · every day', rel: 0.64, streak: 6, done: false }
+    ];
+    const mode = p.homeState || 'normal';
+    let tasks = base;
+    if (mode === 'empty') tasks = [];
+    if (mode === 'allDone') tasks = base.map(t => ({ ...t, done: true }));
+    if (mode === 'missed') tasks = base.map(t => ({ ...t, done: false, streak: 0 }));
+    this.state = {
+      screen: p.startScreen || 'today',
+      tasks,
+      shared: [{ id: 's1', name: '6am check-in', cat: 'Cold Plunge Club · shared', rel: 0.78, streak: 12, done: mode === 'allDone' }],
+      holdId: null, holdPct: 0, sheet: null, selId: 't1', nudgeName: 'Maya'
+    };
+  }
+
+  weight(rel) { return Math.round((1 + (1 - rel) * 1.6) * 10) / 10; }
+
+  startHold(id, list) {
+    cancelAnimationFrame(this._raf);
+    const arr = this.state[list];
+    const t = arr.find(x => x.id === id);
+    if (!t) return;
+    if (t.done) { this.setDone(id, list, false); return; }
+    const dur = 420 + this.weight(t.rel) * 480;
+    const t0 = performance.now();
+    this._t0 = t0;
+    this.setState({ holdId: id, holdPct: 0 });
+    const step = (now) => {
+      if (this.state.holdId !== id) return;
+      const p = Math.min(1, (now - t0) / dur);
+      if (p >= 1) { this.setDone(id, list, true); return; }
+      this.setState({ holdPct: p });
+      this._raf = requestAnimationFrame(step);
+    };
+    this._raf = requestAnimationFrame(step);
+  }
+
+  endHold() {
+    cancelAnimationFrame(this._raf);
+    if (this.state.holdId) {
+      if (performance.now() - (this._t0 || 0) > 160) this._suppress = true;
+      this.setState({ holdId: null, holdPct: 0 });
+    }
+  }
+
+  setDone(id, list, v) {
+    cancelAnimationFrame(this._raf);
+    this._suppress = true;
+    this.setState(s => ({ [list]: s[list].map(t => t.id === id ? { ...t, done: v } : t), holdId: null, holdPct: 0 }));
+  }
+
+  componentWillUnmount() { cancelAnimationFrame(this._raf); }
+
+  decorate(list) {
+    return this.state[list].map(t => {
+      const w = this.weight(t.rel);
+      const held = this.state.holdId === t.id;
+      return {
+        ...t,
+        weightLabel: '×' + w.toFixed(1),
+        meta: t.streak > 0 ? t.streak + '-day streak · kept ' + Math.round(t.rel * 100) + '%' : 'streak reset · kept ' + Math.round(t.rel * 100) + '%',
+        fill: held ? (this.state.holdPct * 100).toFixed(1) + '%' : '0%',
+        boxBg: t.done ? '#8C9B6E' : 'transparent',
+        boxBorder: t.done ? '#8C9B6E' : '#403B33',
+        nameColor: t.done ? '#8A8175' : '#EDE7DA',
+        wColor: w >= 1.6 ? '#8C9B6E' : '#8A8175',
+        onDown: () => this.startHold(t.id, list),
+        onUp: () => this.endHold(),
+        onOpen: () => { if (this._suppress) { this._suppress = false; return; } this.setState({ screen: 'task', selId: t.id }); }
+      };
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const mode = this.props.homeState || 'normal';
+    const tasks = this.decorate('tasks');
+    const shared = this.decorate('shared');
+    const tot = s.tasks.reduce((a, t) => a + this.weight(t.rel), 0);
+    const got = s.tasks.filter(t => t.done).reduce((a, t) => a + this.weight(t.rel), 0);
+    const score = tot ? Math.round((got / tot) * 100) : 0;
+    const AVG = 53;
+    const delta = score - AVG;
+    const deltaStr = (delta >= 0 ? '+' + delta : String(delta));
+    const left = s.tasks.filter(t => !t.done).length;
+    const words = ['none', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'];
+    const isNew = mode === 'newUser';
+
+    let coach = 'Nothing on the board yet.';
+    if (isNew) coach = 'Three days in. Two more before a score means anything.';
+    else if (s.tasks.length && left === 0) coach = 'All of it. Done before noon.';
+    else if (left === 1) coach = 'One left. Finish it.';
+    else if (left > 1) coach = words[left] + ' left. Still winnable.';
+
+    const C = 308;
+    const pct = isNew ? 0.28 : score / 100;
+    const sel = s.tasks.find(t => t.id === s.selId) || s.tasks[0] || { name: 'Cold plunge', cat: 'Body', rel: 0.52, streak: 3 };
+    const selW = this.weight(sel.rel);
+    const dotPattern = [1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1];
+    const series = SERIES.slice(0, SERIES.length - 1).concat(isNew ? SERIES[SERIES.length - 1] : score);
+    const pts = series.map((v, i) => (i * (300 / (series.length - 1))).toFixed(1) + ',' + (145 - ((v - 25) / 70) * 130).toFixed(1));
+
+    const memRaw = [
+      { name: 'Jonah R.', initials: 'JR', score: 84, note: 'up 6 this week' },
+      { name: 'Priya N.', initials: 'PN', score: 79, note: 'steady' },
+      { name: 'You', initials: 'AD', score: isNew ? 0 : score, note: deltaStr + ' vs your average', me: true },
+      { name: 'Theo B.', initials: 'TB', score: 68, note: 'steady' },
+      { name: 'Maya K.', initials: 'MK', score: 52, note: 'missed 3 of 7', slipping: true },
+      { name: 'Sena A.', initials: 'SA', score: 49, note: 'missed 4 of 7', slipping: true },
+      { name: 'Wren L.', initials: 'WL', score: 44, note: 'joined Monday' },
+      { name: 'Ilse M.', initials: 'IM', score: 38, note: 'missed 5 of 7', slipping: true }
+    ];
+    const mem = memRaw.slice().sort((a, b) => b.score - a.score);
+    const myRank = mem.findIndex(m => m.me) + 1;
+    const ord = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
+
+    const go = (screen) => () => this.setState({ screen });
+    const active = '#EDE7DA', idle = '#786F64';
+
+    return {
+      isOnboard: s.screen === 'onboard1' || s.screen === 'onboard2',
+      onb0: s.screen === 'onboard1', onb1: s.screen === 'onboard2',
+      isToday: s.screen === 'today', isTask: s.screen === 'task', isCreate: s.screen === 'create',
+      isGroups: s.screen === 'groups', isGroup: s.screen === 'group',
+      isStats: s.screen === 'stats', isYou: s.screen === 'you',
+      showTabs: ['today', 'groups', 'group', 'stats', 'you'].indexOf(s.screen) >= 0,
+      cToday: s.screen === 'today' ? active : idle,
+      cGroups: (s.screen === 'groups' || s.screen === 'group') ? active : idle,
+      cStats: s.screen === 'stats' ? active : idle,
+      cYou: s.screen === 'you' ? active : idle,
+
+      tasks, shared, coach,
+      scoreText: isNew ? '—' : String(score),
+      deltaText: isNew ? 'Too new to rate · day 3 of 5' : deltaStr + ' vs your 30-day average',
+      dash: (C * pct).toFixed(1) + ' ' + C,
+      isEmpty: s.tasks.length === 0,
+      allDone: s.tasks.length > 0 && left === 0,
+      showMissed: mode === 'missed',
+
+      selName: sel.name, selCat: sel.cat, selWeight: '×' + selW.toFixed(1),
+      selStreak: String(sel.streak), selRel: Math.round(sel.rel * 100) + '%',
+      selWhy: 'You kept this ' + Math.round(sel.rel * 14) + ' of the last 14 days. Tendo raises the weight on what you avoid, so this one moves your score more than anything else on the list.',
+      dots: dotPattern.map((d, i) => ({ id: i, bg: d ? '#8C9B6E' : '#191713', bd: d ? '#8C9B6E' : '#262420' })),
+
+      chartPoints: pts.join(' '),
+      chartArea: '0,150 ' + pts.join(' ') + ' 300,150',
+      lastX: (300).toFixed(1), lastY: (145 - ((series[series.length - 1] - 25) / 70) * 130).toFixed(1),
+      statLine: delta >= 0
+        ? deltaStr.replace('+', '') + ' points above your 30-day average, and climbing since the 6th.'
+        : Math.abs(delta) + ' points under your 30-day average. Two clean days closes the gap.',
+
+      members: mem.map((m, i) => ({
+        ...m, id: m.name, rank: String(i + 1),
+        rowBg: m.me ? '#1D1B16' : 'transparent',
+        nameColor: m.me ? '#8C9B6E' : '#EDE7DA',
+        scoreColor: m.me ? '#8C9B6E' : '#EDE7DA',
+        onNudge: () => this.setState({ sheet: 'nudge', nudgeName: m.name.split(' ')[0] })
+      })),
+
+      myRankLabel: ord[myRank] + ' of 8',
+      sheetOpen: s.sheet === 'nudge', nudgeName: s.nudgeName,
+      presets: [
+        { id: 'a', label: 'Checking in.' },
+        { id: 'b', label: "You're two away." },
+        { id: 'c', label: "Don't break the chain." },
+        { id: 'd', label: 'Strong week. Keep going.' }
+      ],
+      closeSheet: () => this.setState({ sheet: null }),
+
+      goToday: go('today'), goGroups: go('groups'), goStats: go('stats'), goYou: go('you'),
+      goCreate: go('create'), openGroup: go('group'),
+      replayOnb: go('onboard1'), toStep1: go('onboard2'), finishOnb: go('today')
+    };
+  }
+}
+
+</script>
+</body>
+</html>

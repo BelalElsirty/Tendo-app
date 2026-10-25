@@ -1,0 +1,895 @@
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 1
+PRODUCT REQUIREMENTS DOCUMENT
+Tendo
+keep your way
+Version 1.1 | 30 Sep 2026 | Engineering Ready
+Source of truth
+Approved Tendo prototype + Tendo PRD v1.0 + the closed product-decision register in this document. If the prototype and
+this PRD conflict, v1.1 wins.
+Status
+All 45 previously open product decisions are closed. Remaining work is design refinement for a small set of states and
+engineering implementation.
+TENDO
+keep your way
+
+-- 1 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 2
+Document control
+Field Value
+Product Tendo
+Document Product Requirements Document
+Version 1.1
+Date 30 September 2026
+Status Engineering Ready
+Primary platforms iOS and Android
+Product principle Make commitments -> keep them -> measure consistency
+Social principle Keep your way, together - private accountability, not social media
+MVP boundary AI Coach, Advanced Analytics, deeper Customization, Widgets, Live
+Activities and full Calendar integration are post-MVP
+How to use this PRD
+This document is the implementation source of truth for the Tendo MVP. Product rules in v1.1 are final for the first build unless
+explicitly changed through a documented product change. Sample names, scores and dates are illustrative; rules and
+thresholds are normative.
+Contents
+ 1 Product overview
+ 2 Problem statement
+ 3 Product vision
+ 4 Target users
+ 5 Core value proposition
+ 6 MVP scope
+ 7 Out of scope / future
+ 8 Feature requirements framework
+ 9 Screen inventory
+ 10 Navigation structure
+ 11 User journeys
+ 12 Commitment creation & management
+ 13 Commitment types
+ 14 Commitment states
+ 15 Discipline Score
+ 16 Streaks
+ 17 Mood check-in & adaptive tone
+ 18 Weekly Review
+ 19 Commitment Packs
+ 20 Friends & friend requests
+ 21 Groups
+ 22 Shared commitments
+ 23 Group scores & leaderboards
+ 24 Privacy controls
+ 25 Notifications
+ 26 Tendo Free vs Tendo Pro
+ 27 Two-group Free limit
+ 28 Pro upgrade & downgrade
+ 29 Subscription screens
+ 30 Travel, Recovery & flexible-day behaviour
+ 31 One-day rescheduling
+ 32 Offline, timezone & sync
+ 33 Accessibility
+
+-- 2 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 3
+ 34 Privacy, data & account deletion
+ 35 Empty, loading, error & edge states
+ 36 Design-system requirements
+ 37 Acceptance criteria summary
+ Appendix A Closed decision register
+ Appendix B Engineering priority & status
+
+-- 3 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 4
+1. Product overview
+Tendo is a mobile app for recurring personal commitments. Users define the things that make up a good day for them - making
+the bed, working out, studying, reading, brushing their teeth - and hold themselves to those commitments consistently. Tendo
+turns each day into a single 0-100% Discipline Score, tracks streaks and progress, and supports small private groups where
+shared commitments are scored and ranked fairly.
+Tendo is not a task manager
+A task manager asks: "What do I need to get done?" Tendo asks: "What did I commit to doing consistently?"
+Core loop: make commitments -> keep them -> measure consistency.
+Social layer: keep your way, together. Groups are private and invitation-based. There is no public feed, posts, comments,
+follower system or direct messaging in the MVP.
+2. Problem statement
+ Habit trackers can reward trivial check-marks, making a headline number easy to game and hard to trust.
+ To-do apps treat recurring commitments like one-off tasks and usually do not measure consistency over time.
+ Real life breaks rigid systems. Illness, travel, shift work and late nights can unfairly destroy streaks.
+ Accountability products often drift into social-media behaviour instead of helping people keep commitments.
+ Users lose trust when they cannot understand exactly why a score changed.
+3. Product vision
+Tendo is an honest, calm record of whether you kept your word to yourself. It should feel supportive but not easy to game,
+flexible but still disciplined, social but not social media, and powerful without becoming busy.
+Guiding rule
+Mood changes the conversation, not the rules. Mood never changes score, weights, requirements or leaderboard
+outcomes.
+4. Target users
+User Need
+Self-improver Stronger daily discipline around fitness, study, focus and sleep.
+Everyday organiser Consistency with chores, hygiene, tidying, hydration and other
+ordinary routines.
+Accountability seeker Private mutual accountability with a small group of friends, without a
+social network.
+Irregular-schedule user Custom day end, timezone safety, rescheduling, travel and recovery
+handling.
+Age rule
+MVP is intended for users aged 16 and older. Signup uses a simple 16+ confirmation rather than collecting date of birth. If
+legal review for launch markets requires a different mechanism, the age gate may change without altering core product
+behaviour.
+
+-- 4 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 5
+5. Core value proposition
+ One honest number. A weighted personal Discipline Score with a transparent breakdown.
+ Real life is allowed. Skip, move, pause, travel, recovery and optional states are recorded explicitly.
+ Fair, private accountability. Groups use shared commitments only and rank by percentage, never by task volume.
+ Genuinely useful for free. The daily product and social accountability remain free; Pro removes the two-group limit.
+6. MVP scope
+P0 - launch-blocking core
+ Account registration, verification, sign-in and password reset.
+ Onboarding, day-end setting and notification explainer.
+ Personal commitment creation and management.
+ Today screen, completion, skip/pause/archive/delete and score updates.
+ Discipline Score, score breakdown and core streaks.
+ Privacy & Data hub, account deletion and accessibility baseline.
+ Friends, groups, shared commitments, group scoring and leaderboard.
+ Block/report/mute and social privacy.
+P1 - launch scope
+ Amount, duration and weekly-target commitment types; custom scheduling and one-day reschedule.
+ History, edit-day flow, Progress tab, Weekly Review, Commitment Packs, Travel Mode and Recovery Day.
+ Notifications/reminders, nudges, group settings, roles and recap.
+ Tendo Pro, two-group limit, subscription management, restore purchases and downgrade grace flow.
+ Offline-first personal actions and queued social actions.
+P2 - ship if ready, may follow in first update
+ Today Priority, adaptive tone, Why I do this reminder, heavy-day suggestion, Focus Timer, group weekly recap and preset
+challenge viewing.
+ Sync-conflict UI polish and About Tendo.
+7. Out of scope / future
+Feature Status Rule
+AI Coach Future Pro Coming later only. No AI chat,
+recommendations or generated plans in MVP.
+Advanced Analytics Future Pro
+Weekday, time-of-day, category and mood
+trends are post-MVP. Basic Progress remains
+free.
+Deeper Customization Future Pro Accent colours, app icons, score-ring styles and
+extended themes.
+Widgets Post-MVP, Free Today, Remaining and Streak widgets should
+not delay launch.
+Live Activities Post-MVP Potential Focus Timer enhancement.
+Calendar integration Post-MVP Full event display and writing Tendo events are
+deferred.
+Never in scope -
+Public feed, likes, comments, followers, DMs,
+virtual currency, achievement economy,
+paid/creator/AI packs, enterprise permissions.
+
+-- 5 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 6
+8. Feature requirements framework
+Sections 12-35 define implementation behaviour. Each major feature should be built against: purpose, user story, required
+behaviour, business rules, edge cases, affected screens and acceptance criteria. This v1.1 closes the decision register so
+engineering should not infer product rules.
+9. Screen inventory
+Screen / sheet Area Core content
+Welcome Auth Brand, proposition, Create account, Sign in,
+legal links
+Register Auth Name, username, email, password, 16+
+confirmation, Apple/Google, terms
+Verify email Auth 6-digit code, resend, change email
+Sign in Auth Email, password, stay signed in, forgot
+password, Apple/Google
+Onboarding Onboarding Goal, starter commitments, day-end time
+Mood check-in Daily Rough / Low / Okay / Good / Great, Skip
+Priority check-in Daily Pick one commitment or No priority
+Today Today Score, coach line, priority, commitment rows,
+add/manage
+Score breakdown Today Per-item math, totals, weight explanation,
+recent correction
+Commitment detail Today Momentum, streaks, reason, weight, history,
+schedule/actions
+Add commitment Today Name, type, category, suggestions, cadence,
+time of day, why, weight
+Custom schedule Today Pattern, interval, days, time of day, start/end
+Packs Today Search, pack categories and cards
+Pack preview Today Items, customize, duplicate handling, add count
+Manage commitments Today / You Search, status/category filters, actions
+Weekly Review Today / You Weekly score, delta, strongest/hardest, adjust
+next week
+Action sheets Sheets Complete/undo, Skip, Pause, Archive, Optional,
+Priority, Focus, Move, Delete
+Progress Progress tab 30-day chart, today/average/best, history entry
+History Progress Daily scores, tags, correction within window
+Groups Groups tab 2-group limit, group cards, join/create, Friends
+Create / Join group Groups Name/goal/invites or 6-char code
+Group home Groups Group score, streak, shared commitments,
+leaderboard, challenge, activity
+Group settings Groups Roles, members, mute, notifications,
+leave/report/delete
+Shared commitment Groups Name, audience, cadence, participants, dates
+Friends Groups / You Search, requests, friend list
+Friend profile Groups / You Allowed stats, groups in common,
+invite/remove/block/report
+
+-- 6 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 7
+You You tab Profile, people, plan, day settings, appearance,
+tone, privacy, account
+Travel Mode You Dates, pause checklist, active summary
+Recovery Day Sheet Allowance, explanation, confirm/cancel
+Notifications / Reminders You My Day, social, email and reminder controls
+Tendo Pro You Unlimited groups, pricing, future benefits,
+upgrade/restore/manage
+Subscription You Plan, status, renewal, manage/cancel/restore
+Pro downgrade You 7-day grace, choose 2 active groups
+Privacy & Data You Social privacy, export, stored data, legal, delete
+Sync conflict Sheet Keep this version / Use latest
+Loading / error states System Skeletons, cached fallback, retry copy
+10. Navigation structure
+Bottom navigation uses four tabs: Today · Groups · Progress · You. The previous "Stats" label is retired; all references use
+"Progress".
+ Today -> Score breakdown, Commitment detail, Add commitment, Packs, Manage commitments, Weekly Review and
+contextual sheets.
+ Groups -> Group home, settings, shared commitments, challenges, Create/Join, Friends and upgrade sheet.
+ Progress -> 30-day Progress view -> History and recent-day correction.
+ You -> Friends, Groups, Plan/Pro, Subscription, Day end, Reminders, Notifications, Appearance, Tone, Recovery, Travel,
+Weekly Review, Commitments, Privacy & Data and About.
+Creation flows, onboarding, check-in, detail flows and full-screen focus timer hide the bottom tab bar. Pushed screens use a
+text back link naming the parent. Choice sheets always provide an explicit Cancel or Not now.
+11. User journeys
+J1 - New user to first day
+1. Create account -> verify email.
+2. Choose username and confirm 16+ eligibility.
+3. Complete three-step onboarding: goal, starter commitments, day-end time.
+4. Notification explainer -> OS prompt only after Continue.
+5. Mood check-in -> optional Today Priority -> Today.
+6. Complete/log commitments; score remains Too new to rate until sufficient history exists.
+7. Day auto-closes at configured day end; user may also close out manually.
+J2 - Returning daily
+Open -> mood check-in (or Skip) -> optional priority -> Today -> optionally adjust the day -> complete/log through the day ->
+close-out/reflection.
+J3 - Social accountability
+Friends -> search username -> request/accept -> Create group -> invite -> shared commitment acceptance -> group
+leaderboard -> rate-limited nudges -> weekly recap.
+J4 - Free group limit
+At 2 active groups, Create/Join/Accept invite opens the same calm Pro upgrade sheet. Dismissing it changes nothing.
+
+-- 7 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 8
+J5 - Real life
+Travel Mode pauses selected commitments for a date range. Recovery Day protects the day when legitimately needed. One
+occurrence can be moved without changing the recurring schedule.
+J6 - Leaving Pro
+Pro remains active until the paid period ends, then a 7-day grace period lets the user choose two active groups. Others
+become inactive, never deleted.
+
+-- 8 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 9
+12. Commitment creation & management
+Add commitment flow
+8. Name - free text.
+9. Track type - Done/not done · Reach an amount · Spend time · Times per week.
+10. Category - Body · Mind · Focus · Craft · Chores · Other.
+11. Suggested commitments for the selected category; Other has none.
+12. Cadence - Every day · Weekdays · 3x a week · Custom.
+13. Time of day - Morning · Afternoon · Evening · Any time (default).
+14. Why I do this - optional, one line.
+15. Weight card - new commitments begin at x1.0.
+16. Add commitment.
+Custom schedule
+ Pattern: Every day, Weekdays, Weekends, Specific days, X times per week, Every X days.
+ X times per week uses a 1-7 stepper. Every X days uses a 2-30 day interval.
+ Start and optional End use native date pickers.
+ A plain-language schedule summary appears before Save.
+Editing rules
+ Name and category may always be edited.
+ Type may be changed only before the first logged progress/completion. After that it is locked to protect historical meaning.
+ Schedule edits create a new effective schedule; past-day snapshots never change.
+ Duplicate personal names trigger a warning but can be intentionally added.
+ Permanent Delete always requires confirmation. Archive is the preferred non-destructive action.
+ At 15 active personal commitments, show a one-time dismissible "Keep your list meaningful" suggestion. Never block
+creation.
+Pause
+Pause supports Until I resume and Until date. Paused commitments disappear from Today, keep history and do not affect
+score or streak while paused.
+13. Commitment types
+Type Target Today display Logging Score rule
+Simple None Checkbox + name Hold to complete / action 0 or 100%
+Amount Numeric + unit e.g. 1.4 / 2 L + bar Quick adds / manual
+value / Done value / target, capped at 1
+Duration Minutes e.g. 42 / 60 min + bar Quick adds / manual / timer
+/ Done
+minutes / target, capped at
+1
+Weekly target 1-7 times/week e.g. 2 / 3 this week +1 / Done
+Excluded from daily score;
+evaluated in weekly
+consistency and Weekly
+Review
+Units
+Amount commitments offer common units (L, ml, glasses, steps, pages, reps, km) plus a short Custom unit. Units are display
+metadata and do not change the scoring formula.
+
+-- 9 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 10
+Focus timer integration
+When a Focus Timer finishes for an eligible Duration commitment, elapsed time auto-logs and an Undo toast appears. If the
+user leaves early, ask whether to log elapsed time. Custom timer length is 5-180 minutes; presets are 25 / 45 / 60.
+14. Commitment states
+State Visible cue Score Streak effect
+Pending Outlined box 0 until complete; in denominator No increment yet
+Completed Filled box + check; row moves
+below unfinished Full / proportional credit Increments when requirement is
+met
+Missed History label Missed 0 Breaks relevant streak
+Skipped Dash + SKIPPED label Excluded from numerator and
+denominator
+Preserves commitment streak;
+does not increment
+Optional OPTIONAL label Excluded; cannot lower or bonus
+core score Unaffected
+Paused PAUSED label; hidden from Today Not due Frozen
+Rescheduled Removed from source day;
+appears target day Not due source; due target Preserved only if moved
+occurrence is completed
+Archived ARCHIVED in Manage Not due Frozen
+Travel-paused TRAVEL context Not due Preserved
+Recovery day RECOVERY day tag No numeric day score Personal streak preserved, not
+incremented
+Undo is available on the same day. Completed and skipped items return to their original position when undone. State must
+always be identifiable without relying on colour alone.
+15. Discipline Score
+Purpose
+A single objective, explainable measure of how well the user kept today's personal commitments.
+Adaptive weight
+Final formula
+For commitments with at least 5 scheduled occurrences in the last 30 days: weight = 1 + miss rate, rounded to the nearest
+0.1 and capped at x2.0. New/insufficient-history commitments remain x1.0. Weight updates once at day close.
+30-day completion Weight example
+100% x1.0
+80% x1.2
+50% x1.5
+20% x1.8
+0% x2.0
+
+-- 10 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 11
+Daily score
+Due personal commitments include pending/completed measurable commitments that are not optional, skipped, paused,
+archived, travel-paused or moved away. Group commitments never enter the personal score. Weekly-target commitments are
+excluded from the daily denominator.
+For each due commitment, points = round(weight x 10). Credit is 1 for a completed Simple item or proportional value/target for
+Amount and Duration. Daily Score = round(sum(points x credit) / sum(points) x 100).
+ Mood never affects score or weight.
+ Today Priority is visual only.
+ Score updates immediately on completion, undo, logging or state changes.
+ If nothing is due, show "- · Nothing due today". Do not show 100%.
+ Until 5 completed Tendo days exist, show "Too new to rate" instead of a headline score comparison.
+Successful day threshold
+Default successful-day threshold is 80%. Users may choose 70%, 80%, 90% or 100% in Settings. This threshold drives the
+personal daily streak and Weekly Review clean-day count.
+Score breakdown
+Tapping the score shows each due commitment, its state/progress, weight, earned/possible points, excluded skipped items,
+the total, the skip rule and a concise explanation of the heaviest adaptive weight. Every displayed score must reconcile exactly
+to the breakdown total.
+16. Streaks
+Streak Rule
+Commitment streak
+Consecutive scheduled occurrences completed. Skip preserves but
+does not increment. Reschedule follows the moved occurrence.
+Weekly-target streaks count successful weeks; Every-X-days counts
+scheduled occurrences.
+Personal streak
+Increments when daily score meets the user's success threshold.
+Recovery, Travel and naturally empty days preserve but do not
+increment. A scored day below threshold resets.
+Group streak
+Consecutive group days where every participating member
+completes 100% of required shared commitments due that day. A
+normal Skip does not satisfy the streak. Group-authorized
+optional/excused items are excluded.
+Timezone changes never break streaks. The previous day remains anchored to its original timezone/day boundary.
+17. Mood check-in & adaptive tone
+First open each Tendo day: Rough · Low · Okay · Good · Great. Skip is always visible. Mood is private and is never shown to
+friends, groups or leaderboards.
+ Users may change today's mood once before day close from Today.
+ Skipping suppresses the check-in until the next Tendo day.
+ Tone preference: Gentle · Balanced (default) · Push me. Mood shifts copy by at most one step.
+ Use a curated copy matrix, not generated text. Copy remains calm and never uses guilt or shame.
+ Mood changes copy only; it never changes score, weight, requirements or ranking.
+18. Weekly Review
+Weekly Review is a short Sunday review, not an analytics report. Sunday is fixed for MVP; configurable week-ending day is
+post-MVP.
+
+-- 11 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 12
+ Headline weekly average, delta vs previous week when available, successful/clean days, best streak, strongest and
+hardest commitments.
+ Expandable daily bars and commitment consistency.
+ Actions: Keep everything · Review commitments · Adjust schedule.
+ Last 8 weekly reviews are browsable.
+ Recovery and Travel days appear in the timeline but are excluded from the weekly average.
+19. Commitment Packs
+Packs are curated, free, editable starting points. They are not a marketplace.
+Library
+32 launch packs: Morning Reset, Night Reset, Better Sleep, Gym Routine, Beginner Fitness, Running, Exam Week, University
+Day, Deep Work, Productive Workday, Coding Routine, Reading Habit, Clean Room, Weekly Cleaning, Personal Hygiene,
+Self-Care, Mental Reset, Phone Detox, Better Eating, Hydration, Creative Routine, Writing Routine, Language Learning, Side
+Project, Weekend Reset, Travel Routine, Minimal Day, Discipline Starter, No-Procrastination, Work From Home, Posture &
+Mobility, Digital Clean-Up.
+Pack metadata and categories
+Pack browse categories are organizational only. Every commitment inside a pack maps to one of the six actual commitment
+categories: Body, Mind, Focus, Craft, Chores or Other.
+Search and duplicates
+ Unified Add search returns packs, individual suggestions and categories.
+ Case-insensitive duplicate names are flagged.
+ Duplicate actions are Keep existing (default) or Add another. The separate Skip duplicate action is removed.
+ Duplicates start unticked in Customize mode. CTA count always matches what will actually be added.
+
+-- 12 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 13
+20. Friends & friend requests
+Friendships are mutual and require acceptance. Search works by display name or username. No follower model exists.
+Username rules
+Username is chosen during onboarding after account creation. It is 3-20 characters, case-insensitive unique, and may contain
+letters, numbers and underscore. Users may change it once every 30 days.
+Friend profile
+Shows allowed weekly score/streak data, groups in common, Invite to group, Remove friend, Block and Report. Commitment
+names are never shown on profiles. Optional status is limited to 60 characters and edited from Edit Profile.
+21. Groups
+Groups are private circles of up to 12 people. They exist for shared accountability, not social posting.
+Roles
+Capability Owner Admin Member
+Rename group Yes No No
+Delete group Yes No No
+Appoint/remove admins Yes No No
+Invite/remove members Yes Yes No
+Create/edit shared commitments Yes Yes No
+Manage preset challenges Yes Yes No
+Participate / complete / nudge /
+mute / report Yes Yes Yes
+Ownership
+An owner must transfer ownership before leaving. If the owner is the only member, the app offers Delete Group instead.
+Custom group icons are deferred; MVP uses initials avatars. Rename lives in Group Settings.
+Creation and capacity
+ Group name required; goal optional; first shared commitment optional.
+ Invite friends or share a 6-character code that expires after 48 hours.
+ At 12 members, joining/inviting is blocked with clear copy.
+ Challenges are preset templates in MVP; no custom challenge builder.
+22. Shared commitments
+Shared commitments belong to a group and each participant keeps them individually. They never enter the personal Discipline
+Score.
+ Creation always shows the audience label before save.
+ Invited members must accept participation before the commitment appears on their Today screen.
+ A shared-commitment detail screen shows schedule, participants and permitted completion status.
+ Group scoring uses equal weights. Adaptive personal weights never apply to shared commitments.
+ If a shared commitment matches a personal commitment, ask Count for both or Keep separate. Never merge silently.
+
+-- 13 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 14
+23. Group scores & leaderboards
+Group scores measure only that group's shared commitments. Ranking is by percentage, never by personal task count or XP.
+Ties share the same rank with no artificial tie-breaker.
+Period Rule
+Today Shared commitments due today
+This Week Default; average of scored group days
+This Month 30-day group performance
+New members and privacy
+ New members are Unranked until they have 3 scored group days. Then they rank using available group days until they
+reach the full period.
+ Personal Discipline Score privacy never hides the member's group-specific shared score from that group.
+ Nudge appears when a member has unfinished shared commitments due today, not from a generic low-percentage
+threshold.
+Nudges
+Preset messages only; no free text. One nudge per recipient per sender per day. Queued nudges count toward the limit when
+queued and expire at the recipient's Tendo day end.
+Weekly recap
+Shows group score and delta, number of members who improved, strongest shared commitment, most room to improve and
+top group streak. Never names the lowest performer.
+24. Privacy controls
+Privacy-first defaults
+Setting Default
+Personal Discipline Score Only me
+Personal commitment names Private
+Personal streak Hidden
+Nudges Friends only
+Shared commitment participation and group-specific completion remain visible to the relevant group because they are
+necessary to the group feature. Mood and reflections are always private. Personal commitments never become group-visible
+automatically.
+Blocked users cannot see, add, invite or nudge the user and are not notified that they were blocked.
+25. Notifications
+An in-app explainer appears before the OS notification permission. Nothing triggers the native permission dialog without user
+action.
+Defaults after permission is granted
+Category Default
+
+-- 14 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 15
+Morning overview On
+Weekly Review On
+Commitment-specific reminders Off until user adds
+Evening check-in / Last call Off
+Friend requests / group invites / nudges / challenges / recap Off
+Marketing email Off
+Reminder times are editable from Reminders. A commitment-specific reminder is also editable directly from the commitment.
+No streak-loss panic notifications are allowed.
+26. Tendo Free vs Tendo Pro
+Tendo Free Tendo Pro
+All personal commitments, types, packs, score/breakdown, streaks,
+history, Progress, Weekly Review, check-in, tone, travel/recovery,
+reminders, focus timer, privacy and all social features. Up to 2 active
+groups.
+Everything in Free plus unlimited active groups. Future benefits may
+be shown only as Coming later: AI Coach, Advanced Analytics,
+deeper Customization.
+Never paywall checking commitments, the personal score, streaks, history, friends, leaderboard participation, shared
+commitments or the first two groups.
+27. Two-group Free limit
+ Free users may create or belong to at most 2 active groups.
+ At 2/2, Create, Join and Accept invite all open the same Pro upgrade sheet.
+ Inactive groups after downgrade do not count toward the Free limit.
+ Leaving an active group immediately frees a slot.
+28. Pro upgrade & downgrade behaviour
+Upgrade
+The natural upgrade moment is attempting a third active group. The sheet explains that Pro lifts the group limit while
+everything else the user already uses remains free. Not now is always clearly visible. No fake urgency, timers or strike-through
+pricing.
+Downgrade
+ Cancelling keeps Pro until the paid period ends.
+ If more than 2 groups remain, start a 7-day grace period and ask the user to choose 2 active groups.
+ If no choice is made by the deadline, keep the 2 most recently active groups; all others become inactive, not deleted.
+ If the user owns a group that becomes inactive for them, transfer ownership to the oldest Admin; if none, to the longest-
+tenured remaining member.
+ Inactive groups keep history, stop shared commitments/leaderboard participation/notifications for that user, and can be
+reactivated by upgrading or freeing a slot.
+
+-- 15 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 16
+29. Subscription screens
+Launch pricing hypothesis
+Initial store configuration: Monthly $2.99 equivalent and Yearly $24.99 equivalent, localized by Apple/Google store pricing.
+These are launch hypotheses, not hardcoded strings in application logic.
+ No free trial in MVP.
+ Price, billing period, automatic renewal and cancellation information are visible before purchase.
+ Platform copy adapts to Manage in App Store / Manage in Google Play.
+ Restore Purchases is always available.
+ Future Pro features are labelled Coming later and are not functional.
+
+-- 16 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 17
+30. Travel, Recovery & flexible-day behaviour
+Travel Mode
+ Native From / Until date pickers; future trips may be scheduled.
+ User chooses which active commitments pause while away.
+ Paused items are excluded from score and do not break streaks.
+ Travel automatically ends at the next Tendo-day boundary after the Until date.
+ History clearly marks Travel days.
+Recovery Day
+ Allowance: 2 Recovery Days per calendar quarter.
+ Can be applied only to the current day before it closes; not retroactive.
+ No numeric Discipline Score is used for that day or included in averages.
+ Personal streak is preserved but does not increment.
+ Recovery is explicit in Today and History and is never triggered silently.
+Heavy-day suggestion
+When 8 or more required personal commitments are due, Tendo may offer a rule-based suggestion to mark some Optional. It
+never changes commitments automatically.
+Anything different today?
+Accessible after morning check-in and from Today all day. The sheet scrolls through every due commitment and offers Move ·
+Optional · Skip. It is never limited to the first five.
+Day end and corrections
+ Day-end choices: 11:00 PM, Midnight, 1:00 AM, 2:00 AM, 3:00 AM and Custom.
+ The Tendo day auto-closes at the configured boundary if the user does nothing.
+ Recent-day correction window is 12 hours after close. Corrections always show "Edited after day ended".
+ Close-out reflection is optional and never affects score.
+31. One-day rescheduling
+ Move only today's occurrence; recurring schedule remains unchanged.
+ Choose Tomorrow, Later this week or native date picker up to 30 days ahead.
+ If the destination already has the same commitment occurrence, ask before creating another.
+ Reschedule is not available after the source day closes; use Edit Day for correction instead.
+ If target day already has 8+ required commitments, show a warning but never block the move.
+ Moved occurrence is excluded from the source score and becomes due on the destination day.
+32. Offline, timezone & sync
+Offline-first personal actions
+Viewing Today, completing/logging, cached history and creating/editing personal commitments all work offline and save locally
+first. The UI shows a quiet Offline banner and syncs when connectivity returns.
+Queued social actions
+Friend requests may remain queued. Group-code joins respect the invite code's 48-hour expiry. Nudges count against the
+daily limit when queued and expire at the recipient's Tendo-day end.
+
+-- 17 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 18
+Timezone
+A timezone change applies from the current Tendo day forward. Previously closed days remain anchored to their original
+timezone so streaks are safe.
+Conflicts
+If the same record changes on multiple devices, show the conflict the next time the user opens the affected commitment or
+screen. Offer Keep this version and Use latest version with human-readable timestamps; do not expose database terminology.
+33. Accessibility
+ Body and secondary text contrast at least 4.5:1 in both themes.
+ Touch targets at least 44 x 44 pt.
+ No state is communicated by colour alone.
+ Dynamic Type / large text must not truncate critical controls.
+ Charts have text equivalents.
+ Reduce Motion removes non-essential sweep/reorder animations.
+ Logical screen-reader order follows visual order; sheets are announced as dialogs.
+ Hold-to-complete is never mandatory: VoiceOver/TalkBack exposes a Complete custom action and detail screen provides
+Complete now.
+34. Privacy, data & account deletion
+Data minimisation
+MVP does not request location, contacts, camera, microphone or health data. Any future sensitive permission requires an in-
+app explanation before the OS prompt.
+Export
+Export includes profile, commitments, schedule history, completion history, scores, streaks, group memberships/shared
+commitments, mood check-ins and reflections. Request status is confirmed in-app and delivered through an authenticated
+download flow or secure email link.
+Deletion
+ Delete Account is available in-app without contacting support.
+ Require recent re-authentication plus typing DELETE.
+ Account is deactivated immediately after confirmation.
+ Primary cloud records are purged within 7 days; backup copies are purged within 30 days.
+ Shared-group contributions are anonymized where removing them would corrupt other members' historical group records.
+ If a store subscription is active, warn and link to store management, but do not block account deletion.
+Final Privacy Policy, Terms and retention wording require legal review before public launch. Draft screens must not invent
+legal claims.
+35. Empty, loading, error & edge states
+Situation Required state
+No commitments Nothing committed yet. + Add your first commitment
+All done 100% · All commitments complete. keep your way + Close out
+Too new to rate - · Too new to rate · day N of 5
+Nothing due - · Nothing due today
+No groups Discipline holds better with witnesses.
+
+-- 18 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 19
+No friends No one yet. + privacy reassurance
+No search result Specific, local empty copy
+Offline Cached data remains interactive + sync-when-back copy
+Remote refresh failure Couldn't refresh. Your saved data is still here. + Retry
+First remote load Restrained skeletons; never decorative shimmer
+Confirmation Bottom toast, brief and factual
+Whenever cached data exists, show it immediately instead of replacing the screen with a spinner or blank state.
+36. Design-system requirements
+Visual direction
+Quiet, authored, high-contrast mobile UI. No gradients, glassmorphism, decorative emoji, generic icon-card rows, low-contrast
+dark surfaces or stock component-library styling. Use cards only where grouping is useful.
+Core tokens
+Token Warm dark Pure black Use
+Background #14100D #000000 App background
+Surface #1E1915 #0D0D0D Rows, sheets, selective cards
+Raised/divider #2A231D #1B1B1B Tracks, dividers, avatars
+Border #3A312A #272727 Outlined controls
+Text #F4EDE4 same Primary text
+Secondary #A79A8C same Secondary
+Muted #9A8E82 same Lowest allowed muted text
+Olive #8C9B6E same Primary action, score, positive
+state
+Typography
+MVP uses Montserrat with intentional weights: 400/500 for body, 600 for controls/labels and 700 for key numerals/headings.
+Do not use a single semibold weight everywhere. If Tendo later licenses or commissions a distinctive brand face, that is a
+separate design-system migration.
+Motion
+Motion communicates state only: completion sweep, score update, row reordering and sheet transitions. Reduce Motion
+disables non-essential animation. No decorative hover effects or scroll reveals.
+Widgets
+Widgets are post-MVP and free. They must not delay launch or be required to justify Pro.
+37. Acceptance criteria summary
+ Every headline Discipline Score exactly reconciles to the score breakdown.
+ Mood and Today Priority never change score or leaderboard outcomes.
+ Weekly-target commitments do not enter the daily score.
+ Completed rows settle below unfinished rows while unfinished order is preserved.
+
+-- 19 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 20
+ Skipped items are excluded from score; Recovery has no numeric day score; Travel-paused commitments are not due.
+ History snapshots never rewrite when schedules change.
+ Personal commitments never enter a group score and never become shared silently.
+ Group ranking is percentage-only; ties share rank.
+ A Free user cannot end up with more than 2 active groups through any path.
+ No group or history is deleted when Pro ends.
+ All destructive actions that permanently remove user data require explicit confirmation.
+ Core personal actions work offline and sync later.
+ All completion/state interactions have accessible alternatives.
+ AI Coach, Advanced Analytics, deeper Customization and Widgets are not built as working MVP features.
+
+-- 20 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 21
+Appendix A - Closed decision register
+All 45 v1.0 decision items are closed below. This appendix is normative and exists to prevent engineering from reopening
+product behaviour during implementation.
+# Decision v1.1 final rule
+1 Minimum age 16+ confirmation; no DOB in MVP.
+2 Navigation label Progress everywhere; retire Stats.
+3 Custom schedule inputs 1-7 times/week; 2-30 day interval; native date
+pickers.
+4 Time of day Visible on Add Commitment; defaults Any time.
+5 Editing commitment Name/category editable; type locks after first
+record.
+6 Duplicate personal names Warn but allow.
+7 Delete confirmation Always confirm permanent delete; Archive
+preferred.
+8 Meaningful-list guidance One-time suggestion at 15 active commitments;
+never block.
+9 Weekly-target daily score Excluded from daily score; weekly
+measurement only.
+10 Amount units Common unit list + Custom.
+11 Proportional credit toggle No toggle; Amount/Duration always
+proportional.
+12 Focus timer logging Auto-log on finish; early exit asks whether to
+log.
+13 Pause end Until I resume or Until date.
+14 Skip/reschedule streak Skip preserves/no increment; reschedule
+follows moved occurrence.
+15 Adaptive weight 1 + miss rate; 30-day window; min 5
+occurrences; cap x2.0; update at close.
+16 Successful-day threshold 80% default; user chooses 70/80/90/100.
+17 Zero due Show - / Nothing due today.
+18 Streak rules
+Threshold personal streak;
+Recovery/Travel/empty preserve; weekly target
+per week; group streak requires all required
+shared items.
+19 Mood behaviour One edit before close; Skip until tomorrow;
+curated copy matrix.
+20 Weekly Review Sunday MVP; last 8 browsable;
+Recovery/Travel excluded from average.
+21 Pack mapping Each item maps to one of six commitment
+categories.
+22 Unified search Search packs + suggestions + categories.
+23 Duplicate pack actions Keep existing / Add another only.
+24 Friends identity
+Block/report on profile; usernames 3-20,
+unique, 30-day change cooldown; status max
+60 chars.
+25 Group roles/ownership Role-gated actions; owner transfers before
+leaving; initials icon only in MVP.
+26 Group creation/capacity First shared commitment optional; block joins at
+12; preset challenges only.
+
+-- 21 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 22
+27 Shared participation/weight Detail screen; participant acceptance; equal
+group weights.
+28 Leaderboard new/hidden/nudge Nudge unfinished due items; group score
+remains visible; new members unranked until 3
+scored days.
+29 Privacy defaults Score Only me; commitments Private; streak
+Hidden; nudges Friends only.
+30 Notification defaults Morning + Weekly Review on after permission;
+social/marketing off; reminders opt-in.
+31 Free limit edge Invite at 2/2 opens Pro sheet; inactive groups
+do not count.
+32 Pro downgrade 7-day grace; no-choice keeps 2 most recent;
+deterministic ownership transfer.
+33
+Subscription Launch hypothesis $2.99/mo / $24.99/yr
+localized; no trial; platform-specific
+management copy.
+34 Travel Native date pickers; future trips; auto-end after
+Until date boundary.
+35 Recovery 2/quarter; current day only; no numeric
+score/average; streak preserve.
+36 Adjust today After check-in + Today entry; all due items
+scrollable.
+37 Day end/correction 11 PM-midnight-1/2/3 AM + Custom; auto-
+close; 12h edit window.
+38 Focus custom length 5-180 min.
+39 Reschedule Up to 30 days; duplicate prompt; none after
+close; heavy warning at 8+ required.
+40 Sync/queue
+Conflict on next open; nudge counts when
+queued and expires at recipient day end; invite-
+code expiry retained.
+41 Hold accessibility Screen-reader Complete action + Complete
+now control.
+42 Deletion
+Immediate deactivation; 7-day primary purge;
+30-day backups; anonymize shared history;
+reauth + DELETE.
+43 Loading/errors Cached-first, restrained skeletons, saved-data-
+safe error copy.
+44 Typeface Montserrat MVP with 400/500/600/700 weights.
+45 Widgets Post-MVP and free.
+Appendix B - Engineering priority & specification
+status
+Specification status is Locked unless marked Design refinement. Design refinement means the product rule is final but the
+prototype needs a final visual pass before implementation of that specific state.
+Feature Scope Priority Spec / design status
+Auth + verification MVP P0 Locked
+Onboarding + 16+ + username MVP P0 Design refinement
+Today + completion + ordering MVP P0 Locked
+
+-- 22 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 23
+Commitment creation +
+suggestions MVP P0 Design refinement
+Core states
+Skip/Pause/Archive/Delete MVP P0 Design refinement
+Discipline Score + adaptive weight MVP P0 Locked
+Score breakdown MVP P0 Locked
+Personal/commitment/group
+streaks MVP P0 Locked
+Friends/requests/profiles MVP P0 Design refinement
+Groups core MVP P0 Locked
+Shared commitments +
+acceptance MVP P0 Design refinement
+Group score/leaderboard MVP P0 Locked
+Privacy + moderation MVP P0 Design refinement
+Privacy/Data + deletion MVP P0 Locked
+Accessibility baseline MVP P0 Design refinement
+Amount/Duration/Weekly types MVP P1 Design refinement
+Custom schedule/reschedule MVP P1 Design refinement
+Progress + History MVP P1 Locked
+Weekly Review MVP P1 Locked
+Packs MVP P1 Design refinement
+Travel / Recovery MVP P1 Design refinement
+Notifications / Reminders MVP P1 Design refinement
+Offline / queue MVP P1 Locked
+Tendo Pro / 2-group limit MVP P1 Locked
+Subscription / restore / downgrade MVP P1 Design refinement
+Mood check-in MVP P1 Locked
+Today Priority MVP P2 Locked
+Adaptive tone MVP P2 Design refinement
+Focus timer MVP P2 Design refinement
+Group recap / preset challenge
+view MVP P2 Locked
+Sync conflict UI MVP P2 Design refinement
+AI Coach Future Pro - Out of MVP
+Advanced Analytics Future Pro - Out of MVP
+Deeper Customization Future Pro - Out of MVP
+Widgets Post-MVP Free - Out of MVP
+Live Activities Post-MVP - Out of MVP
+Full Calendar integration Post-MVP - Out of MVP
+Engineering handoff
+Before implementation, perform one final Claude Design refinement only for rows marked Design refinement. After that
+pass, freeze product design and begin technical architecture / schema planning. Do not add new features to the MVP
+without a documented change request.
+
+-- 23 of 24 --
+
+TENDO | PRODUCT REQUIREMENTS DOCUMENT | v1.1 ENGINEERING READY
+Tendo PRD v1.1 | 24
+TENDO
+keep your way
+
+-- 24 of 24 --
+
