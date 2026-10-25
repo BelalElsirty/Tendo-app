@@ -6,17 +6,28 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { AppState, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useTendo } from '../state/store';
+import { initCrashReporting, wrapRoot } from '../services/crash';
+import { onHydrationError, useTendo } from '../state/store';
 import { usePalette } from '../theme/useTheme';
 import { ToastHost } from '../ui/Toast';
 
+initCrashReporting();
+
+/** Any screen that throws while rendering lands here instead of a blank app. */
+export { ErrorScreen as ErrorBoundary } from '../ui/ErrorScreen';
+
 function useHydrated() {
   const [done, setDone] = useState(() => useTendo.persist.hasHydrated());
+  const [failed, setFailed] = useState<unknown>(null);
   useEffect(() => {
     const unsub = useTendo.persist.onFinishHydration(() => setDone(true));
+    const unsubError = onHydrationError(setFailed);
     setDone(useTendo.persist.hasHydrated());
-    return unsub;
+    return () => { unsub(); unsubError(); };
   }, []);
+  // Hand saved data that couldn't be read to the error boundary. The app must not carry on with
+  // a fresh state, which would be saved over the user's data.
+  if (failed) throw failed instanceof Error ? failed : new Error(String(failed));
   return done;
 }
 
@@ -32,7 +43,9 @@ function useDayKeeper(enabled: boolean) {
   }, [enabled]);
 }
 
-export default function RootLayout() {
+export default wrapRoot(RootLayout);
+
+function RootLayout() {
   const [fontsLoaded] = useFonts({ Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold });
   const hydrated = useHydrated();
   const stage = useTendo(s => s.stage);

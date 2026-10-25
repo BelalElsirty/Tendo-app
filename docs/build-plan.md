@@ -59,6 +59,16 @@ npm test                # domain unit tests
 npm run typecheck
 ```
 
+CI (`.github/workflows/ci.yml`) runs typecheck, tests, `expo-doctor` and an Android bundle on every push to `main` and every PR, and applies the schema and rule checks to Postgres 16.
+
+Builds (EAS, `app/eas.json`): run `npx eas-cli@latest init` once to link the Expo project, then:
+
+```bash
+npx eas-cli@latest build --profile development   # dev client with native modules (Sentry)
+npx eas-cli@latest build --profile preview       # internal testers (APK on Android)
+npx eas-cli@latest build --profile production    # store builds; build numbers auto-increment
+```
+
 Database rules (needs a local Postgres):
 
 ```bash

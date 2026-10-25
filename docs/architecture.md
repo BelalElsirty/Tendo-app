@@ -53,6 +53,13 @@ The domain layer is deliberately framework-free so the same functions can run in
 - **Hold to complete.** Hold length = `420 + weight × 480` ms. Haptic tick on start, success on completion. Screen readers get a `Complete` accessibility action; the detail screen has `Complete now` (PRD §33).
 - **Ordering.** Unfinished first, completed below, preserving the user's order; a just-changed row holds its place for 520 ms, then animates (skipped under Reduce Motion).
 
+## Persistence and failure handling
+
+- **Saved-state versions.** The persisted store carries `STORE_VERSION` (`src/state/migrations.ts`). Changing its shape means bumping the version and adding a step that upgrades the previous version's data, with a test that feeds an old snapshot through it. Settings merge key by key, so a new setting gets its default with no migration.
+- **Failed migration.** The original data is copied to `tendo-v1.backup-v<N>`, the error is reported, and the app shows the error screen rather than starting fresh, which would save an empty state over the user's data.
+- **Error boundary.** The root layout exports `ErrorBoundary` (`src/ui/ErrorScreen.tsx`): a self-contained screen with Try again that doesn't depend on fonts or the UI kit.
+- **Crash reporting.** Sentry via `src/services/crash.ts`, on only when `EXPO_PUBLIC_SENTRY_DSN` is set. No PII, no session replay, no console breadcrumbs. Source maps upload during EAS builds when `SENTRY_ORG`, `SENTRY_PROJECT` and `SENTRY_AUTH_TOKEN` are set in EAS. In Expo Go only JavaScript errors are captured.
+
 ## Sync model (Phase 2)
 
 - Every local mutation is appended to an outbox (`{table, id, patch, clientUpdatedAt, deviceId}`) and applied optimistically.

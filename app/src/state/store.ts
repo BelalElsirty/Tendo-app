@@ -9,7 +9,20 @@ import type {
   Category, Commitment, DateKey, DayEnd, DayRecord, Entry, Mood, SchedulePattern, Threshold, TimeOfDay, Tone, TrackType,
 } from '../domain/types';
 import type { Provider } from '../services/auth';
+import { reportError } from '../services/crash';
 import type { ThemeName } from '../theme/tokens';
+import { mergePersisted, migrate, STORE_VERSION } from './migrations';
+
+const STORE_KEY = 'tendo-v1';
+
+// A failed hydration never finishes, so the root layout listens for it instead of waiting forever.
+let hydrationError: unknown = null;
+const hydrationErrorListeners = new Set<(e: unknown) => void>();
+export function onHydrationError(cb: (e: unknown) => void): () => void {
+  if (hydrationError) cb(hydrationError);
+  hydrationErrorListeners.add(cb);
+  return () => { hydrationErrorListeners.delete(cb); };
+}
 
 /** Where the user is in the account lifecycle; the root layout routes on this. */
 export type Stage = 'signedOut' | 'verify' | 'username' | 'onboarding' | 'ready';
@@ -305,9 +318,25 @@ export const useTendo = create<TendoState>()(
       };
     },
     {
-      name: 'tendo-v1',
-      version: 1,
+      name: STORE_KEY,
+      version: STORE_VERSION,
       storage: createJSONStorage(() => AsyncStorage),
+      migrate: (persisted, from) => {
+        try {
+          return migrate(persisted, from) as unknown as TendoState;
+        } catch (e) {
+          // Keep the original so a fixed build can recover it, rather than letting the fresh state overwrite it.
+          void AsyncStorage.setItem(`${STORE_KEY}.backup-v${from}`, JSON.stringify(persisted)).catch(() => {});
+          reportError(e, { stage: 'store-migrate', from: String(from) });
+          throw e;
+        }
+      },
+      merge: mergePersisted,
+      onRehydrateStorage: () => (_s, error) => {
+        if (!error) return;
+        hydrationError = error;
+        hydrationErrorListeners.forEach(cb => cb(error));
+      },
       partialize: s => ({
         stage: s.stage, account: s.account, pendingEmail: s.pendingEmail, settings: s.settings,
         commitments: s.commitments, days: s.days, today: s.today,
